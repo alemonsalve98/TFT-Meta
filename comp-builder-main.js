@@ -1,5 +1,16 @@
 'use strict';
 
+// ═══════════════════════════════════════════════════════════════
+//  COMP BUILDER — comp-builder-main.js
+//
+//  FIXES en esta versión:
+//  [1] Estructura hex-slot: ítems fuera del mask → visibles
+//  [2] event.currentTarget guardado antes del setTimeout
+//  [3] Panel equipamiento funcional (id="equipPanel" en HTML)
+//  [4] Clipboard: execCommand primero (funciona en HTTP)
+//  [5] Código del juego TFT (Team Planner format oficial)
+// ═══════════════════════════════════════════════════════════════
+
 const BASE = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/';
 const SA   = 'https://sunderarmor.com/items/';
 const ROWS = 4;
@@ -43,7 +54,7 @@ const CHAMPIONS = {
   TwistedFate: { id:'tft16_twistedfate',    cost:2 },
   Yasuo:       { id:'tft16_yasuo',          cost:2 },
   // Costo 3
-  Loris:       { id:'tft16_loris',          cost:3 },
+  Loris:       { id:'tft16_beardy',         cost:3 },  // Beardy en CDragon
   Gwen:        { id:'tft16_gwen',           cost:3 },
   Jinx:        { id:'tft16_jinx',           cost:3 },
   Nautilus:    { id:'tft16_nautilus',       cost:3 },
@@ -108,7 +119,7 @@ const CHAMPIONS = {
   Galio:       { id:'tft16_galio',          cost:5 },
   THex:        { id:'tft16_thex',           cost:5 },
   Xerath:      { id:'tft16_xerath',         cost:5 },
-  // Costo 7 (Prismatic)
+  // Costo 7 (Prismatic / especial)
   Sylas:       { id:'tft16_sylas',          cost:7 },
   Ryze:        { id:'tft16_ryze',           cost:7 },
 };
@@ -185,22 +196,91 @@ function ini(name) {
 // ══════════════════════════════════════════════════════════════════
 const STATE = {
   board: Array.from({ length:ROWS }, () => Array.from({ length:COLS }, () => null)),
-  drag:  null,
+  drag: null,
 };
 
 // ══════════════════════════════════════════════════════════════════
+//  CÓDIGO DEL JUEGO TFT (Team Planner)
+// ══════════════════════════════════════════════════════════════════
+let GAME_CODES_CACHE = null;
+
+async function loadGameCodes() {
+  if (GAME_CODES_CACHE) return GAME_CODES_CACHE;
+  try {
+    const url = `${BASE}v1/tftchampions-teamplanner.json`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    const champs = (data['TFTSet16'] || []).filter(c => c.character_id);
+
+    // Ordenar alfabéticamente por character_id (así se asignan los códigos)
+    champs.sort((a, b) => a.character_id.localeCompare(b.character_id));
+
+    // Mapa: CHARACTER_ID_UPPERCASE → "01" "02" ... "4A" etc.
+    GAME_CODES_CACHE = {};
+    champs.forEach((ch, i) => {
+      GAME_CODES_CACHE[ch.character_id.toUpperCase()] =
+        (i + 1).toString(16).padStart(2, '0').toUpperCase();
+    });
+
+    return GAME_CODES_CACHE;
+  } catch (e) {
+    console.warn('[TFT Meta] No se pudo cargar team planner codes:', e);
+    GAME_CODES_CACHE = {};
+    return {};
+  }
+}
+
+async function copyGameCode() {
+  const btn = document.getElementById('copyGameBtn');
+
+  // Chequear si hay campeones en el tablero
+  const champsOnBoard = STATE.board.flat().filter(Boolean);
+  if (champsOnBoard.length === 0) {
+    alert('Añade campeones al tablero primero.');
+    return;
+  }
+
+  // Visual de carga
+  const original = btn.innerHTML;
+  btn.textContent = '⏳ Cargando...';
+  btn.disabled = true;
+
+  try {
+    const codes = await loadGameCodes();
+
+    const hexCodes = [];
+    champsOnBoard.forEach(cell => {
+      const chData = CHAMPIONS[cell.key];
+      if (!chData) return;
+      // Nuestro id: 'tft16_annie' → mayúsculas: 'TFT16_ANNIE'
+      // JSON tiene: 'TFT16_Annie' → mayúsculas: 'TFT16_ANNIE'
+      // Coinciden en mayúsculas → lookup funciona
+      const idUpper = chData.id.toUpperCase();
+      const hexCode = codes[idUpper];
+      if (hexCode) hexCodes.push(hexCode);
+    });
+
+    if (hexCodes.length === 0) {
+      btn.textContent = '❌ Sin código';
+      setTimeout(() => { btn.innerHTML = original; btn.disabled = false; }, 2000);
+      return;
+    }
+
+    // Formato: "01" + códigos + "TFTSet16"
+    const gameCode = '01' + hexCodes.join('') + 'TFTSet16';
+    writeClipboard(gameCode);
+
+    btn.textContent = '✅ ¡Código copiado!';
+    setTimeout(() => { btn.innerHTML = original; btn.disabled = false; }, 2500);
+
+  } catch (e) {
+    btn.textContent = '❌ Error';
+    setTimeout(() => { btn.innerHTML = original; btn.disabled = false; }, 2000);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
 //  RENDER DEL TABLERO
-//
-//  FIX #2 — ESTRUCTURA HEX-SLOT:
-//  El problema original: mask-image recorta absolutamente TODO
-//  lo que está dentro de .hex-cell, incluyendo los hijos con
-//  position:absolute. Los ítems que ponías en bottom:-20px
-//  quedaban fuera de la máscara y eran invisibles.
-//
-//  Solución: el .hex-slot es un wrapper SIN máscara.
-//  Dentro tiene:
-//    1. .hex-cell  → la máscara solo afecta a la imagen del campeón
-//    2. .hex-slot-items → debajo del hex, fuera de la máscara, VISIBLE
 // ══════════════════════════════════════════════════════════════════
 function renderBoard() {
   const boardEl = document.getElementById('hexBoard');
@@ -215,24 +295,21 @@ function renderBoard() {
 
     row.forEach((cell, colIdx) => {
       if (cell === null) {
-        // Celda vacía dentro de su slot
-        html += `
-          <div class="hex-slot">
-            <div class="hex-cell empty"
-              data-row="${rowIdx}" data-col="${colIdx}"
-              ondragover="handleDragOver(event)"
-              ondrop="handleDrop(event)"
-              ondragleave="handleDragLeave(event)"
-            ></div>
-            <div class="hex-slot-items"></div>
-          </div>`;
+        // Celda vacía
+        html += `<div class="hex-slot">
+          <div class="hex-cell empty"
+            data-row="${rowIdx}" data-col="${colIdx}"
+            ondragover="handleDragOver(event)"
+            ondrop="handleDrop(event)"
+            ondragleave="handleDragLeave(event)"
+          ></div>
+          <div class="hex-slot-items"></div>
+        </div>`;
       } else {
         const imgUrl = champImgUrl(cell.key);
         const cost   = (CHAMPIONS[cell.key] || {}).cost || 1;
         const name   = cell.key;
-
-        // FIX: ítems renderizados en .hex-slot-items (fuera del mask)
-        const itemsHtml = (cell.items || []).map((ik, ii) => {
+        const itsHtml = (cell.items || []).map((ik, ii) => {
           const iu = itemImgUrl(ik);
           const il = (ITEMS[ik] || {}).label || ik;
           return `<div class="hci" title="Quitar: ${il}"
@@ -241,25 +318,24 @@ function renderBoard() {
             onerror="this.style.display='none'"></div>`;
         }).join('');
 
-        html += `
-          <div class="hex-slot">
-            <div class="hex-cell c${cost}"
-              data-row="${rowIdx}" data-col="${colIdx}"
-              draggable="true"
-              ondragstart="handleChampDragFromBoard(event,${rowIdx},${colIdx})"
-              ondragover="handleDragOver(event)"
-              ondrop="handleDrop(event)"
-              ondragleave="handleDragLeave(event)"
-              oncontextmenu="removeChampFromBoard(event,${rowIdx},${colIdx})"
-              title="${name} — clic derecho para quitar"
-            >
-              <img class="hc-img" src="${imgUrl}" alt="${name}"
-                crossorigin="anonymous" onerror="this.style.display='none'">
-              <span class="hc-ini">${ini(name)}</span>
-              <span class="hc-name">${name}</span>
-            </div>
-            <div class="hex-slot-items">${itemsHtml}</div>
-          </div>`;
+        html += `<div class="hex-slot">
+          <div class="hex-cell c${cost}"
+            data-row="${rowIdx}" data-col="${colIdx}"
+            draggable="true"
+            ondragstart="handleChampDragFromBoard(event,${rowIdx},${colIdx})"
+            ondragover="handleDragOver(event)"
+            ondrop="handleDrop(event)"
+            ondragleave="handleDragLeave(event)"
+            oncontextmenu="removeChampFromBoard(event,${rowIdx},${colIdx})"
+            title="${name} — clic derecho para quitar"
+          >
+            <img class="hc-img" src="${imgUrl}" alt="${name}"
+              crossorigin="anonymous" onerror="this.style.display='none'">
+            <span class="hc-ini">${ini(name)}</span>
+            <span class="hc-name">${name}</span>
+          </div>
+          <div class="hex-slot-items">${itsHtml}</div>
+        </div>`;
       }
     });
 
@@ -273,18 +349,18 @@ function renderBoard() {
 
 // ══════════════════════════════════════════════════════════════════
 //  PANEL DE EQUIPAMIENTO
-//  Muestra los campeones con ítems asignados.
-//  Cada ítem brilla según su tier (S/A/B/C).
+//  Se llama desde renderBoard() — se actualiza con cada cambio.
 // ══════════════════════════════════════════════════════════════════
 function renderEquipPanel() {
   const panel = document.getElementById('equipPanel');
-  if (!panel) return;
+  if (!panel) return; // El div debe existir en el HTML
 
+  // Recoger campeones con al menos 1 ítem
   const equipped = [];
   STATE.board.forEach((row, ri) => {
     row.forEach((cell, ci) => {
       if (cell && cell.items && cell.items.length > 0)
-        equipped.push({ key:cell.key, items:cell.items, ri, ci });
+        equipped.push({ key:cell.key, items:cell.items });
     });
   });
 
@@ -324,9 +400,7 @@ function renderEquipPanel() {
   }</div>`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-//  RENDER DEL POOL DE CAMPEONES
-// ══════════════════════════════════════════════════════════════════
+// ── POOL DE CAMPEONES ──────────────────────────────────────────────
 function renderPool() {
   const poolEl = document.getElementById('champPool');
   if (!poolEl) return;
@@ -338,20 +412,17 @@ function renderPool() {
   });
 
   let html = '';
-  [1, 2, 3, 4, 5, 7].forEach(cost => {
+  [1,2,3,4,5,7].forEach(cost => {
     if (!byCost[cost]) return;
     byCost[cost].forEach(key => {
       const imgUrl = champImgUrl(key);
-      html += `
-        <div class="pool-champ c${cost}" id="pool-${key}"
-          draggable="true"
-          ondragstart="handleChampDragFromPool(event,'${key}')"
-          title="${key} (Costo ${cost})"
-        >
-          <img src="${imgUrl}" alt="${key}"
-            crossorigin="anonymous" onerror="this.style.display='none'">
-          <span class="pc-ini">${ini(key)}</span>
-        </div>`;
+      html += `<div class="pool-champ c${cost}" id="pool-${key}"
+        draggable="true" ondragstart="handleChampDragFromPool(event,'${key}')"
+        title="${key} (Costo ${cost})"
+      >
+        <img src="${imgUrl}" alt="${key}" crossorigin="anonymous" onerror="this.style.display='none'">
+        <span class="pc-ini">${ini(key)}</span>
+      </div>`;
     });
     if (cost < 7) html += `<div class="pool-divider"></div>`;
   });
@@ -361,16 +432,13 @@ function renderPool() {
 
 function updatePoolPlacedState() {
   const placed = new Set();
-  STATE.board.flat().forEach(cell => { if (cell) placed.add(cell.key); });
+  STATE.board.flat().forEach(c => { if (c) placed.add(c.key); });
   document.querySelectorAll('.pool-champ').forEach(el => {
-    const key = el.id.replace('pool-', '');
-    el.classList.toggle('placed', placed.has(key));
+    el.classList.toggle('placed', placed.has(el.id.replace('pool-','')));
   });
 }
 
-// ══════════════════════════════════════════════════════════════════
-//  RENDER DEL PANEL DE OBJETOS (sidebar derecha)
-// ══════════════════════════════════════════════════════════════════
+// ── PANEL DE OBJETOS ──────────────────────────────────────────────
 function renderItemsPanel() {
   const panelEl = document.getElementById('itemsPanel');
   if (!panelEl) return;
@@ -380,28 +448,25 @@ function renderItemsPanel() {
     if (byTier[it.tier]) byTier[it.tier].push(key);
   });
 
-  const tierLabels = { S:'S · Meta', A:'A · Muy fuerte', B:'B · Sólido', C:'C · Componentes' };
+  const tl = { S:'S · Meta', A:'A · Fuerte', B:'B · Sólido', C:'C · Componentes' };
   let html = '';
 
   ['S','A','B','C'].forEach(tier => {
     if (!byTier[tier].length) return;
-    html += `<div class="item-tier-sep t${tier}">${tierLabels[tier]}</div>`;
+    html += `<div class="item-tier-sep t${tier}">${tl[tier]}</div>`;
     byTier[tier].forEach(key => {
       const it = ITEMS[key];
-      const iu = itemImgUrl(key);
-      html += `
-        <div class="item-row"
-          draggable="true"
-          ondragstart="handleItemDrag(event,'${key}')"
-          title="${it.label}"
-        >
-          <div class="item-icon">
-            <img src="${iu}" alt="${it.label}" crossorigin="anonymous"
-              onerror="this.style.display='none'">
-            <span class="fbk">${it.e}</span>
-          </div>
-          <span class="item-row-name">${it.label}</span>
-        </div>`;
+      html += `<div class="item-row"
+        draggable="true" ondragstart="handleItemDrag(event,'${key}')"
+        title="${it.label}"
+      >
+        <div class="item-icon">
+          <img src="${itemImgUrl(key)}" alt="${it.label}" crossorigin="anonymous"
+            onerror="this.style.display='none'">
+          <span class="fbk">${it.e}</span>
+        </div>
+        <span class="item-row-name">${it.label}</span>
+      </div>`;
     });
   });
 
@@ -409,11 +474,10 @@ function renderItemsPanel() {
 }
 
 // ══════════════════════════════════════════════════════════════════
-//  DRAG & DROP — FUENTES
+//  DRAG & DROP
 // ══════════════════════════════════════════════════════════════════
 function handleChampDragFromPool(event, key) {
-  const data = JSON.stringify({ type:'champ', key, fromRow:null, fromCol:null });
-  event.dataTransfer.setData('text/plain', data);
+  event.dataTransfer.setData('text/plain', JSON.stringify({ type:'champ', key, fromRow:null, fromCol:null }));
   event.dataTransfer.effectAllowed = 'move';
   STATE.drag = { type:'champ', key, fromRow:null, fromCol:null };
 }
@@ -422,32 +486,22 @@ function handleChampDragFromBoard(event, fromRow, fromCol) {
   event.stopPropagation();
   const cell = STATE.board[fromRow][fromCol];
   if (!cell) return;
-  const data = JSON.stringify({ type:'champ', key:cell.key, fromRow, fromCol });
-  event.dataTransfer.setData('text/plain', data);
+  event.dataTransfer.setData('text/plain', JSON.stringify({ type:'champ', key:cell.key, fromRow, fromCol }));
   event.dataTransfer.effectAllowed = 'move';
   STATE.drag = { type:'champ', key:cell.key, fromRow, fromCol };
 }
 
-// FIX #1: guardamos el elemento en una variable local ANTES
-// del setTimeout para evitar "Cannot read properties of null".
-// event.currentTarget se vuelve null automáticamente en cuanto
-// el handler termina (el navegador limpia la referencia).
 function handleItemDrag(event, key) {
-  const data = JSON.stringify({ type:'item', key });
-  event.dataTransfer.setData('text/plain', data);
+  event.dataTransfer.setData('text/plain', JSON.stringify({ type:'item', key }));
   event.dataTransfer.effectAllowed = 'copy';
   STATE.drag = { type:'item', key };
-
-  const el = event.currentTarget; // <-- guardamos AQUÍ, dentro del evento
+  const el = event.currentTarget; // guardar aquí, dentro del evento
   if (el) el.classList.add('dragging');
   setTimeout(() => { if (el) el.classList.remove('dragging'); }, 300);
 }
 
-// ══════════════════════════════════════════════════════════════════
-//  DRAG & DROP — DESTINO
-// ══════════════════════════════════════════════════════════════════
 function handleDragOver(event) {
-  event.preventDefault(); // sin esto el drop no funciona
+  event.preventDefault(); // imprescindible para que funcione el drop
   event.dataTransfer.dropEffect = 'move';
   event.currentTarget.classList.add('drag-over');
 }
@@ -464,48 +518,49 @@ function handleDrop(event) {
   try { data = JSON.parse(event.dataTransfer.getData('text/plain')); }
   catch (e) { return; }
 
-  const targetEl = event.currentTarget;
-  const toRow = parseInt(targetEl.dataset.row);
-  const toCol = parseInt(targetEl.dataset.col);
+  const el   = event.currentTarget;
+  const toRow = parseInt(el.dataset.row);
+  const toCol = parseInt(el.dataset.col);
   if (isNaN(toRow) || isNaN(toCol)) return;
 
   if (data.type === 'champ') {
     const { key, fromRow, fromCol } = data;
     if (fromRow !== null && fromCol !== null) {
+      // Mover entre celdas del tablero (intercambiar si ambas ocupadas)
       const originItems = STATE.board[fromRow][fromCol]?.items || [];
       const destCell    = STATE.board[toRow][toCol];
       STATE.board[fromRow][fromCol] = destCell ? { ...destCell } : null;
-      STATE.board[toRow][toCol]     = { key, items: originItems };
+      STATE.board[toRow][toCol]     = { key, items:originItems };
     } else {
+      // Desde el pool
       const existing = STATE.board[toRow][toCol];
       if (existing && existing.key === key) return;
       STATE.board[toRow][toCol] = { key, items: existing ? existing.items : [] };
     }
   } else if (data.type === 'item') {
     const cell = STATE.board[toRow][toCol];
-    if (!cell) return;
+    if (!cell) return; // no hay campeón aquí
     if (!cell.items) cell.items = [];
-    if (cell.items.length >= 3) cell.items.shift();
+    if (cell.items.length >= 3) cell.items.shift(); // máximo 3
     cell.items.push(data.key);
   }
 
   renderBoard();
 }
 
-// ── Acciones directas ──
-function handleEmptyCellClick(row, col) {}
+function handleEmptyCellClick() {} // placeholder
 
 function removeChampFromBoard(event, row, col) {
-  event.preventDefault();
+  event.preventDefault(); // evita menú contextual
   STATE.board[row][col] = null;
   renderBoard();
 }
 
-function removeItemFromBoard(event, row, col, itemIdx) {
+function removeItemFromBoard(event, row, col, idx) {
   event.stopPropagation();
   const cell = STATE.board[row][col];
   if (!cell || !cell.items) return;
-  cell.items.splice(itemIdx, 1);
+  cell.items.splice(idx, 1);
   renderBoard();
 }
 
@@ -517,41 +572,37 @@ function clearBoard() {
 
 // ══════════════════════════════════════════════════════════════════
 //  CLIPBOARD
-//
-//  FIX #5: usamos execCommand('copy') PRIMERO porque funciona en
-//  HTTP y HTTPS. navigator.clipboard solo funciona en HTTPS y
-//  requiere permiso del usuario.
-//  Al poner execCommand primero, funciona en cualquier entorno.
 // ══════════════════════════════════════════════════════════════════
 function writeClipboard(text) {
-  // Método 1: clásico, funciona siempre con foco de ventana
+  // Método 1: 
   try {
-    const el = document.createElement('textarea');
-    el.value = text;
-    el.setAttribute('readonly', '');
-    el.style.cssText = 'position:absolute;left:-9999px;top:0;';
-    document.body.appendChild(el);
-    el.focus();
-    el.select();
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:absolute;left:-9999px;top:0;opacity:0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
     const ok = document.execCommand('copy');
-    document.body.removeChild(el);
-    if (ok) return;
+    document.body.removeChild(ta);
+    if (ok) return; // éxito
   } catch (_) {}
-  // Método 2: moderno (solo HTTPS)
-  navigator.clipboard?.writeText(text).catch(() => {});
+
+  // Método 2
+  navigator.clipboard?.writeText(text).catch(() => {
+    alert('No se pudo copiar. Inténtalo en un contexto HTTPS.');
+  });
 }
 
 function copyComp(mode) {
   const name = document.getElementById('compName')?.value || 'Mi Composición';
-  let text   = '';
   if (mode === 'text') {
-    text = buildTextFormat(name);
+    writeClipboard(buildTextFormat(name));
     flashCopied('copyTextBtn');
   } else {
-    text = buildCompactCode(name);
+    writeClipboard(buildCompactCode(name));
     flashCopied('copyCodeBtn');
   }
-  writeClipboard(text);
 }
 
 function flashCopied(btnId) {
@@ -568,8 +619,8 @@ function buildTextFormat(name) {
     row.forEach((cell, ci) => {
       if (!cell) return;
       n++;
-      const its = (cell.items||[]).map(ik => (ITEMS[ik]||{}).label||ik).join(' · ');
-      lines.push(`  [${ri}·${ci}] ${cell.key}${its ? ' | '+its : ''}`);
+      const its = (cell.items||[]).map(k => (ITEMS[k]||{}).label||k).join(' · ');
+      lines.push(`  [${ri}·${ci}] ${cell.key}${its?' | '+its:''}`);
     });
   });
   if (!n) lines.push('  (tablero vacío)');
@@ -608,7 +659,7 @@ function closeImport(event) {
 }
 
 function importComp() {
-  const raw   = (document.getElementById('importCode').value || '').trim();
+  const raw   = (document.getElementById('importCode').value||'').trim();
   const errEl = document.getElementById('importError');
   errEl.textContent = '';
 
@@ -618,7 +669,7 @@ function importComp() {
   try {
     const encoded = raw.slice(4);
     const json    = decodeURIComponent(
-      Array.from(atob(encoded), c => '%' + c.charCodeAt(0).toString(16).padStart(2,'0')).join('')
+      Array.from(atob(encoded), c => '%'+c.charCodeAt(0).toString(16).padStart(2,'0')).join('')
     );
     const payload = JSON.parse(json);
     if (payload.v !== 1 || !Array.isArray(payload.cells)) throw new Error('Formato incorrecto');
@@ -628,7 +679,6 @@ function importComp() {
       if (r >= 0 && r < ROWS && c >= 0 && c < COLS && CHAMPIONS[k])
         STATE.board[r][c] = { key:k, items:i||[] };
     });
-
     if (payload.n) {
       const inp = document.getElementById('compName');
       if (inp) inp.value = payload.n;
@@ -636,13 +686,12 @@ function importComp() {
     renderBoard();
     closeImport({ target:document.getElementById('importModal') });
   } catch (e) {
-    errEl.textContent = '❌ Error al importar: ' + e.message;
+    errEl.textContent = '❌ Error: ' + e.message;
   }
 }
 
 function checkImportParam() {
-  const params = new URLSearchParams(location.search);
-  const code   = params.get('import');
+  const code = new URLSearchParams(location.search).get('import');
   if (code) {
     document.getElementById('importCode').value = code;
     importComp();
@@ -655,6 +704,7 @@ function init() {
   renderPool();
   renderItemsPanel();
   checkImportParam();
+  loadGameCodes();
 }
 
 document.addEventListener('DOMContentLoaded', init);
