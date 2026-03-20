@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFT Comp Builder · Set 16</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comp-builder-style.css">
+</head>
+<body>
+
+<div class="ad-top"><div class="ad-top-in">[ Google AdSense · Leaderboard 728×90 ]</div></div>
+
+<nav>
+  <a href="index.html" class="logo">⬡ TFT·META</a>
+  <div class="nav-tabs">
+    <a href="index.html"         class="nav-tab">Tier List</a>
+    <a href="tft-items.html"     class="nav-tab">Objetos</a>
+    <a href="comp-builder.html"  class="nav-tab on">Comp Builder</a>
+  </div>
+  <div class="nav-right">
+    <span class="patch">Set 16 · Patch 16.6</span>
+  </div>
+</nav>
+
+<div class="builder-root">
+
+  <div class="builder-topbar">
+    <div class="comp-name-wrap">
+      <span class="cni">✏</span>
+      <input type="text" id="compName" placeholder="Nombre de tu composición..." maxlength="40">
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-sec" onclick="openImport()" title="Importar comp desde código">
+        ⬇ Importar
+      </button>
+      <button class="btn-sec" onclick="clearBoard()" title="Limpiar tablero">
+        🗑 Limpiar
+      </button>
+      <button class="btn-pri" onclick="copyComp('text')" id="copyTextBtn">
+        📋 Copiar Texto
+        <span class="copy-ok">¡Copiado!</span>
+      </button>
+      <button class="btn-pri accent" onclick="copyComp('code')" id="copyCodeBtn">
+        🔗 Exportar Código
+        <span class="copy-ok">¡Copiado!</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="builder-main">
+
+    <!-- COLUMNA CENTRAL: tablero + equip panel + pool -->
+    <div class="board-col">
+
+      <div class="board-label">
+        <span>Tablero Hexagonal — arrastra campeones aquí</span>
+        <span class="board-hint">Clic derecho en un campeón del tablero para quitarlo · Arrastra objetos del panel derecho sobre un campeón</span>
+      </div>
+
+      <!-- Tablero generado por JS -->
+      <div id="hexBoard" class="hex-board"></div>
+
+      <!-- PANEL DE EQUIPAMIENTO:
+           Aparece automáticamente cuando algún campeón tiene ítems.
+           Los ítems brillan según su tier (S/A/B/C). -->
+      <div class="equip-panel">
+        <div class="equip-header">
+          <span class="equip-title">⚔ Equipamiento</span>
+          <span class="equip-hint">Campeones con ítems asignados · clic en ítem para quitarlo desde el tablero</span>
+        </div>
+        <div id="equipPanel">
+          <span class="equip-empty">Sin ítems asignados — arrastra un ítem del panel derecho sobre un campeón del tablero.</span>
+        </div>
+      </div>
+
+      <!-- Pool de campeones -->
+      <div class="pool-section">
+        <div class="pool-header">
+          <span class="pool-title">⚔ Campeones</span>
+          <div class="cost-legend">
+            <span class="cl c1">●</span>Costo 1
+            <span class="cl c2">●</span>2
+            <span class="cl c3">●</span>3
+            <span class="cl c4">●</span>4
+            <span class="cl c5">●</span>5
+          </div>
+        </div>
+        <div id="champPool" class="champ-pool"></div>
+      </div>
+
+    </div>
+
+    <!-- PANEL DE OBJETOS (sidebar derecha) -->
+    <aside class="items-col">
+      <div class="items-header">
+        <span class="items-title">⚙ Objetos</span>
+        <span class="items-hint">Arrastra sobre un campeón en el tablero</span>
+      </div>
+      <div id="itemsPanel" class="items-panel-list"></div>
+    </aside>
+
+  </div><!-- /builder-main -->
+
+</div><!-- /builder-root -->
+
+<!-- MODAL IMPORTAR -->
+<div id="importModal" class="modal-overlay" onclick="closeImport(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-title">⬇ Importar Composición</div>
+    <p class="modal-desc">Pega el código exportado por el Comp Builder (empieza con "TFT:"):</p>
+    <textarea id="importCode" class="modal-input" placeholder="Pega aquí el código TFT:..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-sec" onclick="closeImport()">Cancelar</button>
+      <button class="btn-pri" onclick="importComp()">Importar</button>
+    </div>
+    <div id="importError" class="import-error"></div>
+  </div>
+</div>
+
+<footer>
+  <a href="privacy-policy.html">Privacy Policy</a> · 
+  <a href="about.html">About</a> · 
+  <a href="contact.html">Contact</a>
+  <br>Not endorsed by Riot Games · TFT Set 16 · Patch 16.6
+</footer>
+
+<script src="comp-builder-main.js"></script>
+</body>
+</html>
+

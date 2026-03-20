@@ -689,16 +689,114 @@ function card(c, i, tier) {
 }
 
 // ── SHARE URL ─────────────────────────────────────────────────────
+
 function shareComp(e, slug) {
   e.stopPropagation();
   const url = `${location.origin}${location.pathname}#comp-${slug}`;
-  navigator.clipboard.writeText(url).catch(() => {
-    const inp = document.createElement('input');
-    inp.value = url; document.body.appendChild(inp);
-    inp.select(); document.execCommand('copy');
-    document.body.removeChild(inp);
+  writeClipboard(url);
+  flashBtn(e.currentTarget);
+
+}
+
+function copyCompText(e, slug) {
+  e.stopPropagation();
+
+
+  // Comp por su slug
+  const comp = DATA.find(c => c.name.toLowerCase().replace(/\s+/g,'-') === slug);
+  if (!comp) return;
+
+  const allChamps = comp.board.flat().filter(Boolean);
+  const carries   = allChamps.filter(ch => ch.carry);
+  const supports  = allChamps.filter(ch => !ch.carry);
+
+  const lines = [];
+  lines.push(`📌 ${comp.name.toUpperCase()} | ${comp.style} | Tier ${comp.tier}`);
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  // Carries
+
+   carries.forEach(ch => {
+    const its = (ch.items || []).map(ik => iLabel(ik)).join(' · ');
+    lines.push(`  ✪ ${ch.n}${its ? ' | ' + its : ''}`);
   });
+
+  if (carries.length && supports.length) lines.push('  ─');
+
+  // Resto de campeones
+  const suppNames = supports.map(ch => {
+    const its = (ch.items || []).map(ik => iLabel(ik)).join('+');
+    return its ? `${ch.n}(${its})` : ch.n;
+  }).join(' · ');
+  if (suppNames) lines.push(`  ${suppNames}`);
+
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push(`  📊 Avg: ${comp.avgPlace} | Top2: ${comp.top2} | Top4: ${comp.top4}`);
+  lines.push(`  🔗 ${location.origin}${location.pathname}#comp-${slug}`);
+
+  writeClipboard(lines.join('\n'));
+  flashBtn(e.currentTarget);
+}
+
+// ── ABRIR EN COMP BUILDER ─────────────────────────────────────────
+
+// Flujo:
+//   Tier List → clic 🔧 → comp-builder.html?import=TFT:<base64>
+//   Comp Builder → checkImportParam() → decodifica → renderBoard()
+
+function openInBuilder(e, slug) {
+  e.stopPropagation();
+
+  const comp = DATA.find(c => c.name.toLowerCase().replace(/\s+/g,'-') === slug);
+  if (!comp) return;
+
+  // Construimos el array de celdas (solo las ocupadas)
+  const cells = [];
+  comp.board.forEach((row, ri) => {
+    row.forEach((cell, ci) => {
+      if (cell) {
+        cells.push({ r: ri, c: ci, k: cell.k, i: cell.items || [] });
+      }
+    });
+  });
+
+  const payload = { v: 1, n: comp.name, cells };
+  const json    = JSON.stringify(payload);
+  const encoded = btoa(
+    encodeURIComponent(json).replace(
+      /%([0-9A-F]{2})/g,
+      (_, p1) => String.fromCharCode('0x' + p1)
+    )
+  );
+
   const btn = e.currentTarget;
+  btn.classList.add('copied'); // reutilizamos el estilo visual
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    window.location.href = `comp-builder.html?import=TFT:${encoded}`;
+  }, 600);
+}
+
+// ── CLIPBOARD ────────────────────────────────────────
+
+// FIX: execCommand primero (funciona en HTTP), clipboard API como respaldo
+function writeClipboard(text) {
+  try {
+    const el = document.createElement('textarea');
+    el.value = text;
+    el.setAttribute('readonly', '');
+    el.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(el);
+    el.focus();
+    el.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(el);
+    if (ok) return;
+  } catch (_) {}
+  navigator.clipboard?.writeText(text).catch(() => {});
+}
+
+function flashBtn(btn) {
   btn.classList.add('copied');
   setTimeout(() => btn.classList.remove('copied'), 2000);
 }
@@ -742,14 +840,28 @@ function render() {
       <div class="cg">${bt[t].map((c,i) => card(c,i,t)).join('')}</div>
     </div>
     ${t==='S' ? '<div class="ad-inline">[ Google AdSense · In-content 728×90 ]</div>' : ''}`).join('');
+
   document.getElementById('TC').textContent = DATA.length;
   document.getElementById('QL').innerHTML = [
     ...DATA.filter(c=>c.tier==='S').map(c=>`<div class="qr"><div class="qd dS"></div><span class="qn">${c.name}</span><span class="qt">${c.style}</span></div>`),
     ...DATA.filter(c=>c.tier==='A').slice(0,3).map(c=>`<div class="qr"><div class="qd dA"></div><span class="qn">${c.name}</span><span class="qt">${c.style}</span></div>`),
-  ].join('');
+  ].
+  
+  join('');
   checkHash();
 }
-function tog(id, el) { EXP.has(id) ? (EXP.delete(id), el.classList.remove('exp')) : (EXP.add(id), el.classList.add('exp')); }
-function sf(btn, val) { AF=val; document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); render(); }
-function go() { render(); }
+function tog(id, el) { 
+  EXP.has(id) ? (EXP.delete(id), el.classList.remove('exp')) : 
+  (EXP.add(id), el.classList.add('exp'));
+ }
+
+function sf(btn, val) {
+   AF=val; document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on')); 
+   
+   btn.classList.add('on'); render();
+}
+
+function go() { 
+  render();
+}
 render();
