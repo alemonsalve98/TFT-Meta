@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFT Objetos · Set 16 · Patch 16.6</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tft-items-style.css">
+</head>
+<body>
+
+<div class="ad-top"><div class="ad-top-in">[ Google AdSense · Leaderboard 728×90 ]</div></div>
+
+<nav>
+  <a href="index.html" class="logo">⬡ TFT·META</a>
+  <div class="nav-tabs">
+    <a href="index.html" class="nav-tab">Tier List</a>
+    <a href="tft-items.html" class="nav-tab on">Objetos</a>
+  </div>
+  <div class="nav-right">
+    <span class="patch">Set 16 · Patch 16.6</span>
+  </div>
+</nav>
+
+<div class="wrap">
+<div class="main">
+  <div class="ph">
+    <h1>Objetos TFT</h1>
+    <p>Tier list de objetos para el meta actual — objetos completos, componentes y de soporte</p>
+  </div>
+
+  <div class="controls">
+    <div class="swrap">
+      <span class="si">⌕</span>
+      <input type="text" id="SI" placeholder="Buscar objeto..." oninput="go()">
+    </div>
+    <div class="cat-btns">
+      <button class="cb on" onclick="setCat(this,'all')">Todos</button>
+      <button class="cb" onclick="setCat(this,'Completo')">Completos</button>
+      <button class="cb" onclick="setCat(this,'Componente')">Componentes</button>
+      <!--<button class="cb" onclick="setCat(this,'Soporte')">Soporte</button>
+      <button class="cb" onclick="setCat(this,'Artefacto')">Artefactos</button> -->
+    </div>
+    <div class="tier-btns">
+      <button class="tb2 tS on" onclick="toggleTier(this,'S')">S</button>
+      <button class="tb2 tA on" onclick="toggleTier(this,'A')">A</button>
+      <button class="tb2 tB on" onclick="toggleTier(this,'B')">B</button>
+      <button class="tb2 tC on" onclick="toggleTier(this,'C')">C</button>
+    </div>
+  </div>
+
+  <div id="GRID"></div>
+</div>
+
+<aside class="side">
+  <div class="ad-side">[ Google AdSense · 300×250 ]</div>
+  <div class="widget">
+    <h3>Por Tier</h3>
+    <div id="TIER_SUMMARY"></div>
+  </div>
+  <div class="widget">
+    <h3>Top Completos</h3>
+    <div id="TOP_ITEMS"></div>
+  </div>
+  <div class="ad-side">[ Google AdSense · 300×250 ]</div>
+</aside>
+</div>
+<div id="OVERLAY" class="overlay"></div>
+<footer style="text-align:center;padding:20px;color:#555;font-size:12px">
+  <a href="privacy-policy.html">Privacy Policy</a> · 
+  <a href="about.html">About</a> · 
+  <a href="contact.html">Contact</a>
+  <br>Not endorsed by Riot Games · TFT Set 16 · Patch 16.7
+</footer>
+<script src="tft-items-main.js"></script>
+
+</body>
+</html>

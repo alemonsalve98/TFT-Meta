@@ -1,0 +1,727 @@
+/* ==========================================================================
+   1. VARIABLES & RESET
+   ========================================================================== */
+:root {
+  --bg: #080b10;
+  --surf: #0d1117;
+  --surf2: #131920;
+  --brd: rgba(255, 255, 255, .06);
+  --txt: #e8eaf0;
+  --mut: #5a6070;
+  --dim: #3a4050;
+  --s: #e53935;
+  --sg: rgba(229, 57, 53, .18);
+  --sh: rgba(229, 57, 53, .55);
+  --a: #00e5ff;
+  --ag: rgba(0, 229, 255, .12);
+  --ah: rgba(0, 229, 255, .45);
+  --gold: #ffd700;
+  --goldg: rgba(255, 215, 0, .55);
+  --c1: #888;
+  --c2: #4caf50;
+  --c3: #2196f3;
+  --c4: #9c27b0;
+  --c5: #ffd700;
+  /* Tier colors */
+  --tS: #e53935;
+  --tA: #ff9800;
+  --tB: #4caf50;
+  --tC: #607d8b;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: .4;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   2. NAVEGACIÓN & HEADER
+   ========================================================================== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 11, 16, .95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--brd);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--s);
+  text-shadow: 0 0 20px var(--sh);
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-right: 40px;
+}
+
+.nav-tabs {
+  display: flex;
+  height: 60px;
+  flex: 1;
+  gap: 0;
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: var(--mut);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.nav-tab:hover {
+  color: var(--txt);
+  border-bottom-color: rgba(255, 255, 255, .15);
+}
+
+.nav-tab.on {
+  color: var(--a);
+  border-bottom-color: var(--a);
+}
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.patch {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--mut);
+}
+
+/* ==========================================================================
+   3. ESTRUCTURA PRINCIPAL (LAYOUT)
+   ========================================================================== */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  gap: 32px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.side {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.ph {
+  margin-bottom: 28px;
+}
+
+.ph h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.ph p {
+  color: var(--mut);
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   4. CONTROLES & FILTROS
+   ========================================================================== */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.swrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.swrap input {
+  width: 100%;
+  background: var(--surf);
+  border: 1px solid var(--brd);
+  border-radius: 4px;
+  color: var(--txt);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  padding: 9px 16px 9px 38px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.swrap input:focus {
+  border-color: rgba(0, 229, 255, .4);
+}
+
+.swrap input::placeholder {
+  color: var(--dim);
+}
+
+.si {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.cat-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cb {
+  background: var(--surf);
+  border: 1px solid var(--brd);
+  color: var(--mut);
+  padding: 6px 14px;
+  border-radius: 3px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .18s;
+}
+
+.cb:hover {
+  border-color: rgba(255, 255, 255, .15);
+  color: var(--txt);
+}
+
+.cb.on {
+  background: rgba(0, 229, 255, .08);
+  border-color: var(--a);
+  color: var(--a);
+}
+
+.tier-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.tb2 {
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all .18s;
+  background: transparent;
+}
+
+.tb2.tS { color: var(--tS); border-color: rgba(229, 57, 53, .35); }
+.tb2.tA { color: var(--tA); border-color: rgba(255, 152, 0, .35); }
+.tb2.tB { color: var(--tB); border-color: rgba(76, 175, 80, .35); }
+.tb2.tC { color: var(--tC); border-color: rgba(96, 125, 139, .35); }
+
+.tb2.on.tS { background: rgba(229, 57, 53, .12); }
+.tb2.on.tA { background: rgba(255, 152, 0, .12); }
+.tb2.on.tB { background: rgba(76, 175, 80, .12); }
+.tb2.on.tC { background: rgba(96, 125, 139, .12); }
+
+/* ==========================================================================
+   5. GRID & ITEM CARDS
+   ========================================================================== */
+.sec-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--brd);
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.icard {
+  background: var(--surf);
+  border: 1px solid var(--brd);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.icard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 6px 0 0 6px;
+}
+
+.icard.tS::before { background: var(--tS); box-shadow: 0 0 8px rgba(229, 57, 53, .4); }
+.icard.tA::before { background: var(--tA); box-shadow: 0 0 8px rgba(255, 152, 0, .4); }
+.icard.tB::before { background: var(--tB); box-shadow: 0 0 8px rgba(76, 175, 80, .3); }
+.icard.tC::before { background: var(--tC); }
+
+.icard:hover {
+  border-color: rgba(255, 255, 255, .12);
+  transform: translateY(-2px);
+  background: var(--surf2);
+}
+
+.icard.tS:hover { box-shadow: 0 4px 20px rgba(229, 57, 53, .12); }
+.icard.tA:hover { box-shadow: 0 4px 20px rgba(255, 152, 0, .10); }
+.icard.tB:hover { box-shadow: 0 4px 20px rgba(76, 175, 80, .10); }
+
+.icard-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.item-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--surf2);
+  border: 1px solid rgba(255, 255, 255, .1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.item-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+
+.item-icon .fbk {
+  position: relative;
+  z-index: 1;
+  font-size: 20px;
+}
+
+.icard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.icard-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .04em;
+  color: var(--txt);
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.icard-cat {
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  color: var(--dim);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.tier-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .04em;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-badge.tS { color: #000; background: var(--tS); }
+.tier-badge.tA { color: #000; background: var(--tA); }
+.tier-badge.tB { color: #000; background: var(--tB); }
+.tier-badge.tC { color: var(--txt); background: var(--tC); }
+
+.icard-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.stat-pill {
+  background: var(--bg);
+  border: 1px solid var(--brd);
+  border-radius: 3px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  color: var(--mut);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.stat-pill .sv { color: var(--txt); font-weight: 700; }
+.stat-val-pos { color: #81c784; }
+.stat-val-neg { color: #e57373; }
+
+.icard-desc {
+  font-size: 12px;
+  color: var(--mut);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   6. CHAMPIONS & COMPONENTS (DETALLES)
+   ========================================================================== */
+.best-on {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.best-on-label {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  color: var(--dim);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+.champ-mini {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--brd);
+  flex-shrink: 0;
+  background: var(--surf2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: rgba(255, 255, 255, .6);
+}
+
+.champ-mini img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  z-index: 2;
+}
+
+.champ-mini .fbk {
+  position: relative;
+  z-index: 1;
+  font-size: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+}
+
+.champ-mini.c1 { border-color: var(--c1); }
+.champ-mini.c2 { border-color: var(--c2); }
+.champ-mini.c3 { border-color: var(--c3); }
+.champ-mini.c4 { border-color: var(--c4); }
+.champ-mini.c5 { border-color: var(--c5); }
+
+.components-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--brd);
+}
+
+.comp-label {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  color: var(--dim);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.comp-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--brd);
+  background: var(--surf2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.comp-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+
+.comp-arrow {
+  color: var(--dim);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   7. PUBLICIDAD (ADS)
+   ========================================================================== */
+.ad-top {
+  width: 100%;
+  background: var(--surf);
+  border-bottom: 1px solid var(--brd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  position: relative;
+  z-index: 10;
+}
+
+.ad-top-in, .ad-side, .ad-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dim);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .005));
+  border: 1px dashed rgba(255, 255, 255, .08);
+}
+
+.ad-top-in { width: 728px; height: 90px; }
+.ad-side { width: 100%; min-height: 250px; border-radius: 4px; margin-bottom: 16px; }
+.ad-inline { width: 100%; height: 90px; border-radius: 4px; margin: 28px 0; }
+
+/* ==========================================================================
+   8. SIDEBAR & WIDGETS
+   ========================================================================== */
+.widget {
+  background: var(--surf);
+  border: 1px solid var(--brd);
+  border-radius: 6px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.widget h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--brd);
+  padding-bottom: 10px;
+}
+
+.wrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--brd);
+  font-size: 13px;
+}
+
+.wrow:last-child { border-bottom: none; }
+
+.wtier {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.wtier.tS { background: var(--tS); color: #000; }
+.wtier.tA { background: var(--tA); color: #000; }
+.wtier.tB { background: var(--tB); color: #000; }
+.wtier.tC { background: var(--tC); color: var(--txt); }
+
+.wname { flex: 1; color: var(--mut); }
+.wcount { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--dim); }
+
+.sr {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--brd);
+}
+
+.sr:last-child { border-bottom: none; }
+.sl { color: var(--mut); }
+.sv2 { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--txt); }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px); /* El efecto borroso */
+  z-index: 999;
+  display: none; /* Oculto por defecto */
+  cursor: zoom-out;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* Clase que se aplica a la tarjeta al hacer clic */
+.icard.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.3); /* Crece un 30% */
+  z-index: 1000;
+  width: 320px; /* Ancho fijo para que no se deforme */
+  cursor: zoom-out;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+/* Evitar scroll cuando una tarjeta está abierta */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   9. FOOTER & MEDIA QUERIES
+   ========================================================================== */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--brd);
+  padding: 24px;
+  text-align: center;
+  color: var(--dim);
+  font-size: 12px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: .05em;
+  margin-top: 40px;
+}
+
+@media(max-width: 1000px) {
+  .side { display: none; }
+}
+
+@media(max-width: 640px) {
+  .wrap { padding: 16px 12px; }
+  nav { padding: 0 16px; }
+  .nav-tab { padding: 0 12px; font-size: 11px; }
+  .item-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
