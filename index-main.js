@@ -135,16 +135,19 @@ const DATA = [
     augments: [{n: 'Arcanist Crown', t: 'prismatic'}, {n: 'Jeweled Lotus', t: 'gold'}, {n: 'Witchful Thinking', t: 'silver'}],
     carousel: [{k: 'SpearofShojin', p: 'high'}, {k: 'NashorsTooth', p: 'high'}, {k: 'VoidStaff', p: 'high'}, {k: 'BrambleVest', p: 'med'}],
     board: [
-      [null, null, {n: 'Taric', k: 'Taric', c: 4, items: ['BrambleVest', 'DragonsClaw', 'SpiritVisage']}, {n: 'Tibbers', k: 'Tibbers', c: 5}, {n: 'Neeko', k: 'Neeko', c: 2}, null, null],
-      [null, {n: 'Swain', k: 'Swain', c: 4}, null, {n: 'Lux', k: 'Lux', c: 4}, null, null, null],
-      [null, {n: 'Shyvana', k: 'Shyvana', c: 5}, {n: 'Fiddle', k: 'Fiddle', c: 5}, {n: 'Annie', k: 'Annie', c: 5, carry: true, items: ['AdaptiveHelm', 'SpearofShojin', 'VoidStaff']}, null, null, null],
-      [null, null, null, {n: 'Sylas', k: 'Sylas', c: 5}, null, null, null]
+      [{n: 'Neeko', k: 'Neeko', c: 2},{n:'Garen', k:'Garen', c:4}, {n: 'Shyvana', k: 'Shyvana', c: 5}, {n: 'Swain', k: 'Swain', c: 4}, {n: 'Sylas', k: 'Sylas', c: 7},{n:'Tibbers', k:'Tibbers', c:5, items:['BrambleVest','DragonsClaw','SpiritVisage']},{n:'Taric', k:'Taric',c:4}],
+
+      [null,null, null, null, null, null, null],
+
+      [null,null,null,null, null, null, null],
+
+      [{n:'Lux', k:'Lux',c:4}, null, null,null, null, null,  {n: 'Annie', k: 'Annie', c: 5, carry: true, items: ['AdaptiveHelm', 'SpearofShojin', 'VoidStaff']}]
     ]
   },
 
   {
     tier: 'S',
-    name: 'Noxus Disruptores',
+    name: 'Noxus Disruptors',
     style: 'Fast 9',
     tags: [],
     avgPlace: '2.3',
@@ -155,10 +158,15 @@ const DATA = [
     augments: [{n: 'Disruptor Crown', t: 'prismatic'}, {n: 'Noxus Crest', t: 'gold'}, {n: 'Jeweled Lotus', t: 'silver'}],
     carousel: [{k: 'JeweledGauntlet', p: 'high'}, {k: 'NashorsTooth', p: 'high'}, {k: 'VoidStaff', p: 'high'}, {k: 'SunfireCape', p: 'med'}],
     board: [
-      [null, {n: 'Taric', k: 'Taric', c: 4, items: ['BrambleVest', 'SunfireCape', 'SpiritVisage']}, {n: 'Swain', k: 'Swain', c: 4}, {n: 'Vi', k: 'Vi', c: 2}, null, null, null],
-      [null, null, {n: 'Ambessa', k: 'Ambessa', c: 4}, {n: 'Seraphine', k: 'Seraphine', c: 4, items: ['VoidStaff']}, null, null, null],
-      [null, {n: 'Shyvana', k: 'Shyvana', c: 5}, {n: 'Fiddle', k: 'Fiddle', c: 5}, {n: 'Mel', k: 'Mel', c: 5, carry: true, items: ['JeweledGauntlet', 'NashorsTooth', 'NashorsTooth']}, null, null, null],
-      [null, null, null, {n: 'Sylas', k: 'Sylas', c: 5}, null, null, null]
+
+      [null,{n:'Vi', k:'Vi', c:2},{n:'Sylas', k:'Sylas', c:7},{n: 'Swain', k: 'Swain', c: 4},{n:'Ambessa', k:'Ambessa', c:4},{n: 'Taric', k: 'Taric', c: 4, items: ['BrambleVest', 'SunfireCape', 'SpiritVisage']},{n:'Shyvana', k:'Shyvana', c:5}],
+
+      [null, null,null,null,{n:'Fiddle', k:'Fiddle', c:5}, null, null],
+
+
+      [null, null, null, null, null, null, null],
+
+      [null, null, null, null, {n:'Seraphine', k:'Seraphine', c:4}, null,  {n: 'Mel', k: 'Mel', c: 5, carry: true, items: ['JeweledGauntlet', 'NashorsTooth', 'NashorsTooth']}]
     ]
   },
 
@@ -195,10 +203,11 @@ const DATA = [
     augments: [{n: 'Gunslinger Crown', t: 'prismatic'}, {n: 'Bilgewater Crest', t: 'gold'}, {n: 'Tons of Stats', t: 'silver'}],
     carousel: [{k: 'HandofJustice', p: 'high'}, {k: 'SpearofShojin', p: 'high'}, {k: 'GuinsoosRageblade', p: 'high'}, {k: 'BrambleVest', p: 'med'}],
     board: [
-      [null, {n: 'Nautilus', k: 'Nautilus', c: 3}, {n: 'Ornn', k: 'Ornn', c: 5}, {n: 'Wukong', k: 'Wukong', c: 4}, null, null, null],
-      [null, {n: 'Taric', k: 'Taric', c: 4, items: ['BrambleVest', 'SunfireCape']}, {n: 'Fiddle', k: 'Fiddle', c: 5}, {n: 'Shyvana', k: 'Shyvana', c: 5}, null, null, null],
-      [null, null, {n: 'Lucian', k: 'Lucian', c: 5}, {n: 'MF', k: 'MF', c: 4, carry: true, items: ['HandofJustice', 'SpearofShojin', 'GuinsoosRageblade']}, null, null, null],
-      [null, null, null, {n: 'TahmK', k: 'TahmK', c: 5, items: ['PileOCitrus', 'Barknuckles']}, null, null, null]
+      [null, {n: 'Nautilus', k: 'Nautilus', c: 3}, {n: 'Wukong', k: 'Wukong', c: 4}, {n:'Taric', k:'Taric', c:4}, {n:'Ornn', k:'Ornn', c:5}, {n: 'TahmK', k: 'TahmK', c: 5, items: ['PileOCitrus', 'Barknuckles','ProtectorsVow']}, {n: 'Shyvana', k: 'Shyvana', c: 5}],
+
+      [null, null, null, null,  {n: 'Fiddle', k: 'Fiddle', c: 5}, null, null],
+      [null, null, null, null, null, null, null],
+      [null, null, null, null, {n: 'Lucian', k: 'Lucian', c: 5}, null, {n: 'MF', k: 'MF', c: 4, carry: true, items: ['HandofJustice', 'SpearofShojin', 'GuinsoosRageblade']}]
     ]
   },
 

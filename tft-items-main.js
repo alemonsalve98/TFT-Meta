@@ -8,8 +8,7 @@ const BASE = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-dat
 
 const SA = 'https://sunderarmor.com/items/';
 
-// Complete TFT Set 16 items — names verified from sunderarmor.com (same CDN as TFTactics)
-// Tier ratings from tftactics.gg/tierlist/items/ Patch 16.6
+
 const ITEM = {
   Evenshroud:              { url: SA+'Evenshroud.png', l:'Evenshroud', tier:'S', e:'💜' },
   GuinsoosRageblade:       { url: SA+'GuinsoosRageblade.png', l:"Guinsoo's Rageblade", tier:'S', e:'⚡' },
@@ -306,7 +305,7 @@ const ITEMS = [
    components:['GiantsBelt','GiantsBelt']},
 
 
-  // ─── B TIER ─────────────────────────────────────────────────────────────────
+  // ─── B TIER ────────────────────────────────────────────────────────────────
   {id:'BlueBuff',         name:'Blue Buff',               tier:'B', cat:'Completo',
    stats:[{l:'Maná inicial',v:'+20'},{l:'Maná post cast',v:'+20'}],
    desc:'Al lanzar la Habilidad, gana 20 de maná adicional.',
