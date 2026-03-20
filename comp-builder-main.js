@@ -1,17 +1,5 @@
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════
-//  COMP BUILDER — comp-builder-main.js
-//  FIXES aplicados:
-//  [1] handleItemDrag: event.currentTarget se vuelve null después
-//      del evento. Guardamos la referencia ANTES del setTimeout.
-//  [2] hex-slot wrapper: los ítems van FUERA del mask hexagonal
-//      para que sean visibles (el mask recorta todo lo interno).
-//  [3] Hexágonos vacíos: fondo más opaco, siempre visibles.
-//  [4] Panel de equipamiento: nuevo, entre tablero y pool.
-//  [5] Clipboard: execCommand primero, no depende de HTTPS.
-// ═══════════════════════════════════════════════════════════════
-
 const BASE = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/';
 const SA   = 'https://sunderarmor.com/items/';
 const ROWS = 4;
