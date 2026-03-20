@@ -31,18 +31,25 @@
       <input type="text" id="compName" placeholder="Nombre de tu composición..." maxlength="40">
     </div>
     <div class="topbar-actions">
-      <button class="btn-sec" onclick="openImport()" title="Importar comp desde código">
-        ⬇ Importar
-      </button>
-      <button class="btn-sec" onclick="clearBoard()" title="Limpiar tablero">
-        🗑 Limpiar
-      </button>
+      <button class="btn-sec" onclick="openImport()">⬇ Importar</button>
+      <button class="btn-sec" onclick="clearBoard()">🗑 Limpiar</button>
+
+      <!-- Copia texto para chats / Discord -->
       <button class="btn-pri" onclick="copyComp('text')" id="copyTextBtn">
         📋 Copiar Texto
         <span class="copy-ok">¡Copiado!</span>
       </button>
+
+      <!-- Copia código para importar en el Builder -->
       <button class="btn-pri accent" onclick="copyComp('code')" id="copyCodeBtn">
         🔗 Exportar Código
+        <span class="copy-ok">¡Copiado!</span>
+      </button>
+
+      <!-- Copia el código oficial del Team Planner del juego TFT -->
+      <button class="btn-pri game" onclick="copyGameCode()" id="copyGameBtn"
+        title="Copia el código para pegar en el Planificador de Equipo dentro del juego TFT">
+        🎮 Código Juego
         <span class="copy-ok">¡Copiado!</span>
       </button>
     </div>
@@ -50,7 +57,7 @@
 
   <div class="builder-main">
 
-    <!-- COLUMNA CENTRAL: tablero + equip panel + pool -->
+    <!-- COLUMNA CENTRAL -->
     <div class="board-col">
 
       <div class="board-label">
@@ -61,13 +68,13 @@
       <!-- Tablero generado por JS -->
       <div id="hexBoard" class="hex-board"></div>
 
-      <!-- PANEL DE EQUIPAMIENTO:
-           Aparece automáticamente cuando algún campeón tiene ítems.
-           Los ítems brillan según su tier (S/A/B/C). -->
+      <!-- PANEL DE EQUIPAMIENTO
+           Muestra automáticamente los campeones con ítems asignados.
+           Se actualiza cada vez que se añade/quita un ítem del tablero. -->
       <div class="equip-panel">
         <div class="equip-header">
           <span class="equip-title">⚔ Equipamiento</span>
-          <span class="equip-hint">Campeones con ítems asignados · clic en ítem para quitarlo desde el tablero</span>
+          <span class="equip-hint">Campeones con ítems asignados · Los ítems brillan según su tier S/A/B/C</span>
         </div>
         <div id="equipPanel">
           <span class="equip-empty">Sin ítems asignados — arrastra un ítem del panel derecho sobre un campeón del tablero.</span>
@@ -79,7 +86,7 @@
         <div class="pool-header">
           <span class="pool-title">⚔ Campeones</span>
           <div class="cost-legend">
-            <span class="cl c1">●</span>Costo 1
+            <span class="cl c1">●</span>1
             <span class="cl c2">●</span>2
             <span class="cl c3">●</span>3
             <span class="cl c4">●</span>4
@@ -89,13 +96,13 @@
         <div id="champPool" class="champ-pool"></div>
       </div>
 
-    </div>
+    </div><!-- /board-col -->
 
-    <!-- PANEL DE OBJETOS (sidebar derecha) -->
+    <!-- PANEL DE OBJETOS -->
     <aside class="items-col">
       <div class="items-header">
         <span class="items-title">⚙ Objetos</span>
-        <span class="items-hint">Arrastra sobre un campeón en el tablero</span>
+        <span class="items-hint">Arrastra sobre un campeón del tablero</span>
       </div>
       <div id="itemsPanel" class="items-panel-list"></div>
     </aside>
@@ -119,8 +126,8 @@
 </div>
 
 <footer>
-  <a href="privacy-policy.html">Privacy Policy</a> · 
-  <a href="about.html">About</a> · 
+  <a href="privacy-policy.html">Privacy Policy</a> ·
+  <a href="about.html">About</a> ·
   <a href="contact.html">Contact</a>
   <br>Not endorsed by Riot Games · TFT Set 16 · Patch 16.6
 </footer>
@@ -128,4 +135,3 @@
 <script src="comp-builder-main.js"></script>
 </body>
 </html>
-

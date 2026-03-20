@@ -1,3 +1,7 @@
+/* =========================================================
+   COMP BUILDER — TFT·META  |  comp-builder-style.css
+   ========================================================= */
+
 :root {
   --bg: #080b10;
   --surf: #0d1117;
@@ -49,7 +53,6 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
 }
 
-/* ADS */
 .ad-top {
   width: 100%;
   background: var(--surf);
@@ -77,7 +80,6 @@ body::before {
   text-transform: uppercase;
 }
 
-/* NAV */
 nav {
   position: sticky;
   top: 0;
@@ -169,7 +171,7 @@ nav {
 .comp-name-wrap {
   position: relative;
   flex: 1;
-  min-width: 240px;
+  min-width: 220px;
 }
 
 .comp-name-wrap .cni {
@@ -258,6 +260,21 @@ nav {
   background: rgba(255, 215, 0, .15);
 }
 
+.btn-pri.game {
+  background: rgba(76, 175, 80, .08);
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.btn-pri.game:hover {
+  background: rgba(76, 175, 80, .18);
+}
+
+.btn-pri:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
 .copy-ok {
   position: absolute;
   bottom: calc(100% + 6px);
@@ -276,8 +293,7 @@ nav {
   transition: opacity .2s;
 }
 
-.btn-pri.copied .copy-ok,
-.btn-sec.copied .copy-ok {
+.btn-pri.copied .copy-ok {
   opacity: 1;
 }
 
@@ -312,40 +328,62 @@ nav {
   color: var(--dim);
 }
 
-/* TABLERO HEXAGONAL */
+/* ══════════════════════════════════════════════════════════
+   TABLERO HEXAGONAL — ESTRUCTURA DE 3 NIVELES
+
+   PROBLEMA ANTERIOR: Los ítems estaban DENTRO de .hex-cell
+   que tiene mask-image. El mask recortaba TODO lo interno.
+
+   SOLUCIÓN: Estructura en 3 niveles:
+   ┌─ .hex-slot (position:relative, SIN overflow:hidden, SIN mask)
+   │   ├─ .hex-cell (tiene mask → solo recorta la imagen del campeón)
+   │   └─ .hex-slot-items (position:absolute TOP:86px → debajo del hex, VISIBLE)
+   
+   .hex-slot-items está fuera del mask porque es hermano de
+   .hex-cell, no hijo. El position:absolute lo posiciona
+   debajo del hexágono. z-index:30 lo pone encima de todo.
+   ══════════════════════════════════════════════════════════ */
+
 .hex-board {
   display: flex;
   flex-direction: column;
   user-select: none;
+  padding-bottom: 30px;
 }
 
+/* Cada fila de hexágonos */
 .hex-row {
   display: flex;
   align-items: flex-start;
   margin-bottom: -12px;
+  overflow: visible;
 }
 
 .hex-row.offset {
   margin-left: 40px;
 }
 
+/* Wrapper de fila — tiene margen extra para los ítems que cuelgan abajo */
 .hex-row-wrap {
-  margin-bottom: 30px;
+  overflow: visible;
+  margin-bottom: 32px;
 }
 
+/* NIVEL 1: hex-slot — el wrapper sin máscara */
 .hex-slot {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative; /* para que hex-slot-items use absolute */
+  display: inline-block;
+  width: 72px;
+  height: 82px;
+  flex-shrink: 0;
   margin: 0 3px;
 }
 
+/* NIVEL 2: hex-cell — tiene la máscara hexagonal */
 .hex-cell {
+  position: relative;
   width: 72px;
   height: 82px;
-  position: relative;
-  flex-shrink: 0;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 115'%3E%3Cpath d='M50 4L96 27V81L50 104L4 81V27L50 4Z' fill='%23000'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 115'%3E%3Cpath d='M50 4L96 27V81L50 104L4 81V27L50 4Z' fill='%23000'/%3E%3C/svg%3E");
   -webkit-mask-size: contain;
@@ -357,45 +395,29 @@ nav {
   overflow: hidden;
 }
 
+/* FIX: Fondo visible para celdas vacías */
 .hex-cell.empty {
   background: rgba(255, 255, 255, .10);
   cursor: crosshair;
 }
 
 .hex-cell.empty:hover {
-  background: rgba(0, 229, 255, .20);
+  background: rgba(0, 229, 255, .22);
 }
 
 .hex-cell.drag-over {
-  background: rgba(0, 229, 255, .35) !important;
-  filter: brightness(1.6) !important;
-  transform: scale(1.08);
+  background: rgba(0, 229, 255, .38) !important;
+  filter: brightness(1.7) !important;
+  transform: scale(1.1);
 }
 
-.hex-cell.c1 {
-  background: linear-gradient(150deg, #3a3a3a, #1a1a1a);
-}
-
-.hex-cell.c2 {
-  background: linear-gradient(150deg, #1e5230, #0d2e1a);
-}
-
-.hex-cell.c3 {
-  background: linear-gradient(150deg, #0e3068, #071a3e);
-}
-
-.hex-cell.c4 {
-  background: linear-gradient(150deg, #4a0e70, #280640);
-}
-
-.hex-cell.c5 {
-  background: linear-gradient(150deg, #6e5000, #3e2d00);
-  box-shadow: inset 0 0 18px rgba(255, 215, 0, .4);
-}
-
-.hex-cell.c7 {
-  background: linear-gradient(150deg, #8B0000, #4a0000);
-}
+/* Colores por costo */
+.hex-cell.c1 { background: linear-gradient(150deg, #3a3a3a, #1a1a1a); }
+.hex-cell.c2 { background: linear-gradient(150deg, #1e5230, #0d2e1a); }
+.hex-cell.c3 { background: linear-gradient(150deg, #0e3068, #071a3e); }
+.hex-cell.c4 { background: linear-gradient(150deg, #4a0e70, #280640); }
+.hex-cell.c5 { background: linear-gradient(150deg, #6e5000, #3e2d00); box-shadow: inset 0 0 18px rgba(255, 215, 0, .4); }
+.hex-cell.c7 { background: linear-gradient(150deg, #8B0000, #4a0000); }
 
 .hex-cell:not(.empty):hover {
   transform: scale(1.08);
@@ -403,6 +425,7 @@ nav {
   filter: brightness(1.2);
 }
 
+/* Imagen del campeón */
 .hex-cell .hc-img {
   position: absolute;
   inset: 0;
@@ -450,26 +473,32 @@ nav {
   opacity: 1;
 }
 
+/* NIVEL 3: hex-slot-items — FUERA de la máscara */
 .hex-slot-items {
+  position: absolute;
+  top: 86px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
   display: flex;
   gap: 3px;
-  margin-top: 4px;
-  min-height: 22px;
-  justify-content: center;
-  flex-wrap: wrap;
+  pointer-events: all;
+  min-height: 1px;
 }
 
+/* Ítem individual en el tablero */
 .hci {
-  width: 21px;
-  height: 21px;
+  width: 22px;
+  height: 22px;
   border-radius: 3px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .3);
-  background: rgba(10, 10, 20, .9);
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: rgba(8, 11, 16, .95);
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
   transition: border-color .15s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .5);
 }
 
 .hci img {
@@ -505,14 +534,17 @@ nav {
   opacity: 1;
 }
 
-/* PANEL DE EQUIPAMIENTO */
+/* ══════════════════════════════════════════════════════════
+   PANEL DE EQUIPAMIENTO
+   ══════════════════════════════════════════════════════════ */
+
 .equip-panel {
   margin-top: 24px;
   background: var(--surf);
   border: 1px solid var(--brd);
   border-radius: 8px;
   padding: 14px 16px;
-  min-height: 62px;
+  min-height: 68px;
 }
 
 .equip-header {
@@ -556,10 +588,10 @@ nav {
   border: 1px solid var(--brd);
   border-radius: 6px;
   padding: 8px 12px;
-  animation: equip-in .2s ease;
+  animation: eq-in .2s ease;
 }
 
-@keyframes equip-in {
+@keyframes eq-in {
   from {
     opacity: 0;
     transform: translateY(4px)
@@ -603,12 +635,12 @@ nav {
   z-index: 1;
 }
 
-.equip-avatar.c1 { border-color: var(--c1); }
-.equip-avatar.c2 { border-color: var(--c2); }
-.equip-avatar.c3 { border-color: var(--c3); }
-.equip-avatar.c4 { border-color: var(--c4); }
-.equip-avatar.c5 { border-color: var(--c5); box-shadow: 0 0 8px var(--goldg); }
-.equip-avatar.c7 { border-color: #e53935; box-shadow: 0 0 8px rgba(229, 57, 53, .5); }
+.equip-avatar.c1 { border-color: var(--c1) }
+.equip-avatar.c2 { border-color: var(--c2) }
+.equip-avatar.c3 { border-color: var(--c3) }
+.equip-avatar.c4 { border-color: var(--c4) }
+.equip-avatar.c5 { border-color: var(--c5); box-shadow: 0 0 8px var(--goldg) }
+.equip-avatar.c7 { border-color: #e53935; box-shadow: 0 0 8px rgba(229, 57, 53, .5) }
 
 .equip-champ-name {
   font-family: 'Rajdhani', sans-serif;
@@ -644,7 +676,6 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
   transition: transform .15s;
 }
 
@@ -664,9 +695,10 @@ nav {
   font-size: 14px;
 }
 
-.equip-item-box.tS { border-color: var(--tS); box-shadow: 0 0 10px rgba(229, 57, 53, .55); }
-.equip-item-box.tA { border-color: var(--tA); box-shadow: 0 0 10px rgba(255, 152, 0, .5); }
-.equip-item-box.tB { border-color: var(--tB); box-shadow: 0 0 8px rgba(76, 175, 80, .45); }
+/* Brillo según tier del ítem */
+.equip-item-box.tS { border-color: var(--tS); box-shadow: 0 0 10px rgba(229, 57, 53, .6); }
+.equip-item-box.tA { border-color: var(--tA); box-shadow: 0 0 10px rgba(255, 152, 0, .55); }
+.equip-item-box.tB { border-color: var(--tB); box-shadow: 0 0 8px rgba(76, 175, 80, .5); }
 .equip-item-box.tC { border-color: var(--tC); }
 
 .equip-item-name {
@@ -679,7 +711,7 @@ nav {
   text-overflow: ellipsis;
 }
 
-/* POOL */
+/* POOL DE CAMPEONES */
 .pool-section {
   background: var(--surf);
   border: 1px solid var(--brd);
@@ -712,7 +744,7 @@ nav {
   color: var(--dim);
 }
 
-.cl { font-size: 14px; }
+.cl { font-size: 14px }
 .cl.c1 { color: var(--c1) }
 .cl.c2 { color: var(--c2) }
 .cl.c3 { color: var(--c3) }
@@ -1004,7 +1036,15 @@ footer {
   margin-top: 40px;
 }
 
-/* RESPONSIVE */
+footer a {
+  color: var(--dim);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--mut);
+}
+
 @media(max-width: 900px) {
   .builder-main {
     flex-direction: column-reverse;
@@ -1040,5 +1080,12 @@ footer {
   }
   .hex-row.offset {
     margin-left: 30px;
+  }
+  .hex-slot {
+    width: 54px;
+    height: 62px;
+  }
+  .hex-slot-items {
+    top: 66px;
   }
 }
