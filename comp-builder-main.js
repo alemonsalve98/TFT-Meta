@@ -1,16 +1,4 @@
 'use strict';
-
-// ═══════════════════════════════════════════════════════════════
-//  COMP BUILDER — comp-builder-main.js
-//
-//  FIXES en esta versión:
-//  [1] Estructura hex-slot: ítems fuera del mask → visibles
-//  [2] event.currentTarget guardado antes del setTimeout
-//  [3] Panel equipamiento funcional (id="equipPanel" en HTML)
-//  [4] Clipboard: execCommand primero (funciona en HTTP)
-//  [5] Código del juego TFT (Team Planner format oficial)
-// ═══════════════════════════════════════════════════════════════
-
 const BASE = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/';
 const SA   = 'https://sunderarmor.com/items/';
 const ROWS = 4;
@@ -215,10 +203,11 @@ async function loadGameCodes() {
     // Ordenar alfabéticamente por character_id (así se asignan los códigos)
     champs.sort((a, b) => a.character_id.localeCompare(b.character_id));
 
-    // Mapa: CHARACTER_ID_UPPERCASE → "01" "02" ... "4A" etc.
+    // Mapa: character_id en minúsculas → código hex "01" "02" ...
+    // Usamos minúsculas en ambos lados para evitar problemas de casing
     GAME_CODES_CACHE = {};
     champs.forEach((ch, i) => {
-      GAME_CODES_CACHE[ch.character_id.toUpperCase()] =
+      GAME_CODES_CACHE[ch.character_id.toLowerCase()] =
         (i + 1).toString(16).padStart(2, '0').toUpperCase();
     });
 
@@ -252,11 +241,8 @@ async function copyGameCode() {
     champsOnBoard.forEach(cell => {
       const chData = CHAMPIONS[cell.key];
       if (!chData) return;
-      // Nuestro id: 'tft16_annie' → mayúsculas: 'TFT16_ANNIE'
-      // JSON tiene: 'TFT16_Annie' → mayúsculas: 'TFT16_ANNIE'
-      // Coinciden en mayúsculas → lookup funciona
-      const idUpper = chData.id.toUpperCase();
-      const hexCode = codes[idUpper];
+
+      const hexCode = codes[chData.id];
       if (hexCode) hexCodes.push(hexCode);
     });
 
@@ -295,14 +281,15 @@ function renderBoard() {
 
     row.forEach((cell, colIdx) => {
       if (cell === null) {
-        // Celda vacía
-        html += `<div class="hex-slot">
-          <div class="hex-cell empty"
-            data-row="${rowIdx}" data-col="${colIdx}"
-            ondragover="handleDragOver(event)"
-            ondrop="handleDrop(event)"
-            ondragleave="handleDragLeave(event)"
-          ></div>
+        // Celda vacía: handlers en .hex-slot (no en .hex-cell)
+        // Así los ítems de filas superiores no bloquean el drop
+        html += `<div class="hex-slot"
+          data-row="${rowIdx}" data-col="${colIdx}"
+          ondragover="handleDragOver(event)"
+          ondrop="handleDrop(event)"
+          ondragleave="handleDragLeave(event)"
+        >
+          <div class="hex-cell empty"></div>
           <div class="hex-slot-items"></div>
         </div>`;
       } else {
@@ -318,14 +305,15 @@ function renderBoard() {
             onerror="this.style.display='none'"></div>`;
         }).join('');
 
-        html += `<div class="hex-slot">
+        html += `<div class="hex-slot"
+          data-row="${rowIdx}" data-col="${colIdx}"
+          ondragover="handleDragOver(event)"
+          ondrop="handleDrop(event)"
+          ondragleave="handleDragLeave(event)"
+        >
           <div class="hex-cell c${cost}"
-            data-row="${rowIdx}" data-col="${colIdx}"
             draggable="true"
             ondragstart="handleChampDragFromBoard(event,${rowIdx},${colIdx})"
-            ondragover="handleDragOver(event)"
-            ondrop="handleDrop(event)"
-            ondragleave="handleDragLeave(event)"
             oncontextmenu="removeChampFromBoard(event,${rowIdx},${colIdx})"
             title="${name} — clic derecho para quitar"
           >
@@ -349,7 +337,6 @@ function renderBoard() {
 
 // ══════════════════════════════════════════════════════════════════
 //  PANEL DE EQUIPAMIENTO
-//  Se llama desde renderBoard() — se actualiza con cada cambio.
 // ══════════════════════════════════════════════════════════════════
 function renderEquipPanel() {
   const panel = document.getElementById('equipPanel');
@@ -501,24 +488,31 @@ function handleItemDrag(event, key) {
 }
 
 function handleDragOver(event) {
-  event.preventDefault(); // imprescindible para que funcione el drop
+  event.preventDefault(); // sin esto el drop no funciona
+  event.stopPropagation();
   event.dataTransfer.dropEffect = 'move';
+  // La clase drag-over va en .hex-slot; el CSS la aplica al .hex-cell interno
   event.currentTarget.classList.add('drag-over');
 }
 
 function handleDragLeave(event) {
-  event.currentTarget.classList.remove('drag-over');
+  // Solo quitamos si el mouse sale del .hex-slot completo (no de un hijo interno)
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    event.currentTarget.classList.remove('drag-over');
+  }
 }
 
 function handleDrop(event) {
   event.preventDefault();
+  event.stopPropagation();
   event.currentTarget.classList.remove('drag-over');
 
   let data;
   try { data = JSON.parse(event.dataTransfer.getData('text/plain')); }
   catch (e) { return; }
 
-  const el   = event.currentTarget;
+  // data-row y data-col ahora están en .hex-slot (el currentTarget)
+  const el    = event.currentTarget;
   const toRow = parseInt(el.dataset.row);
   const toCol = parseInt(el.dataset.col);
   if (isNaN(toRow) || isNaN(toCol)) return;
@@ -526,22 +520,20 @@ function handleDrop(event) {
   if (data.type === 'champ') {
     const { key, fromRow, fromCol } = data;
     if (fromRow !== null && fromCol !== null) {
-      // Mover entre celdas del tablero (intercambiar si ambas ocupadas)
       const originItems = STATE.board[fromRow][fromCol]?.items || [];
       const destCell    = STATE.board[toRow][toCol];
       STATE.board[fromRow][fromCol] = destCell ? { ...destCell } : null;
-      STATE.board[toRow][toCol]     = { key, items:originItems };
+      STATE.board[toRow][toCol]     = { key, items: originItems };
     } else {
-      // Desde el pool
       const existing = STATE.board[toRow][toCol];
       if (existing && existing.key === key) return;
       STATE.board[toRow][toCol] = { key, items: existing ? existing.items : [] };
     }
   } else if (data.type === 'item') {
     const cell = STATE.board[toRow][toCol];
-    if (!cell) return; // no hay campeón aquí
+    if (!cell) return; // no hay campeon en esta celda
     if (!cell.items) cell.items = [];
-    if (cell.items.length >= 3) cell.items.shift(); // máximo 3
+    if (cell.items.length >= 3) cell.items.shift();
     cell.items.push(data.key);
   }
 
