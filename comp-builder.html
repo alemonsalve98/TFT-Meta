@@ -14,9 +14,9 @@
 <nav>
   <a href="index.html" class="logo">⬡ TFT·META</a>
   <div class="nav-tabs">
-    <a href="index.html"         class="nav-tab">Tier List</a>
-    <a href="tft-items.html"     class="nav-tab">Objetos</a>
-    <a href="comp-builder.html"  class="nav-tab on">Comp Builder</a>
+    <a href="index.html"        class="nav-tab">Tier List</a>
+    <a href="tft-items.html"    class="nav-tab">Objetos</a>
+    <a href="comp-builder.html" class="nav-tab on">Comp Builder</a>
   </div>
   <div class="nav-right">
     <span class="patch">Set 16 · Patch 16.6</span>
@@ -25,6 +25,7 @@
 
 <div class="builder-root">
 
+  <!-- TOPBAR -->
   <div class="builder-topbar">
     <div class="comp-name-wrap">
       <span class="cni">✏</span>
@@ -33,51 +34,59 @@
     <div class="topbar-actions">
       <button class="btn-sec" onclick="openImport()">⬇ Importar</button>
       <button class="btn-sec" onclick="clearBoard()">🗑 Limpiar</button>
+      <button class="btn-pri" onclick="copyComp('text')"  id="copyTextBtn">
 
-      <!-- Copia texto para chats / Discord -->
-      <button class="btn-pri" onclick="copyComp('text')" id="copyTextBtn">
-        📋 Copiar Texto
-        <span class="copy-ok">¡Copiado!</span>
+        📋 Copiar Texto<span class="copy-ok">¡Copiado!</span>
+
       </button>
+      
+      <button class="btn-pri game" onclick="copyGameCode()"    id="copyGameBtn">
 
-      <!-- Copia código para importar en el Builder -->
-      <button class="btn-pri accent" onclick="copyComp('code')" id="copyCodeBtn">
-        🔗 Exportar Código
-        <span class="copy-ok">¡Copiado!</span>
-      </button>
-
-      <!-- Copia el código oficial del Team Planner del juego TFT -->
-      <button class="btn-pri game" onclick="copyGameCode()" id="copyGameBtn"
-        title="Copia el código para pegar en el Planificador de Equipo dentro del juego TFT">
-        🎮 Código Juego
-        <span class="copy-ok">¡Copiado!</span>
+        🎮 Código TFT<span class="copy-ok">¡Copiado!</span>
       </button>
     </div>
   </div>
 
+  <!-- MAIN: traits | board+pool | items -->
   <div class="builder-main">
 
-    <!-- COLUMNA CENTRAL -->
+    <!-- PANEL RASGOS (izquierda) -->
+    <aside class="traits-col">
+      <div class="traits-header">
+        <span class="traits-title">⬡ Rasgos</span>
+        <span class="traits-hint">Se actualiza en tiempo real</span>
+      </div>
+      <div id="traitsList" class="traits-list">
+        <span class="traits-empty">Añade campeones para ver rasgos activos.</span>
+      </div>
+    </aside>
+
+    <!-- COLUMNA CENTRAL: tablero + equip + pool -->
     <div class="board-col">
 
       <div class="board-label">
-        <span>Tablero Hexagonal — arrastra campeones aquí</span>
-        <span class="board-hint">Clic derecho en un campeón del tablero para quitarlo · Arrastra objetos del panel derecho sobre un campeón</span>
+        <span class="bl-title">Tablero Hexagonal — arrastra campeones aquí</span>
+        <span class="bl-hint">Clic en ítem del panel → clic en campeón para asignar · Clic derecho en hex para quitar</span>
       </div>
 
-      <!-- Tablero generado por JS -->
+      <!-- Chip que muestra el ítem seleccionado actualmente -->
+      <div class="item-cursor" id="itemCursor">
+        <div class="ic-img" id="itemCursorImg"></div>
+        <span id="itemCursorName"></span>
+        <span class="ic-hint">→ clic en campeón · Esc para cancelar</span>
+      </div>
+
+      <!-- Tablero hexagonal generado por JS -->
       <div id="hexBoard" class="hex-board"></div>
 
-      <!-- PANEL DE EQUIPAMIENTO
-           Muestra automáticamente los campeones con ítems asignados.
-           Se actualiza cada vez que se añade/quita un ítem del tablero. -->
+      <!-- Panel de equipamiento: campeones con ítems -->
       <div class="equip-panel">
         <div class="equip-header">
           <span class="equip-title">⚔ Equipamiento</span>
-          <span class="equip-hint">Campeones con ítems asignados · Los ítems brillan según su tier S/A/B/C</span>
+          <span class="equip-hint">Clic en un ítem del tablero para quitarlo</span>
         </div>
         <div id="equipPanel">
-          <span class="equip-empty">Sin ítems asignados — arrastra un ítem del panel derecho sobre un campeón del tablero.</span>
+          <span class="equip-empty">Sin ítems asignados — clic en un ítem del panel derecho, luego clic en un campeón.</span>
         </div>
       </div>
 
@@ -98,17 +107,16 @@
 
     </div><!-- /board-col -->
 
-    <!-- PANEL DE OBJETOS -->
+    <!-- PANEL OBJETOS (derecha) -->
     <aside class="items-col">
       <div class="items-header">
         <span class="items-title">⚙ Objetos</span>
-        <span class="items-hint">Arrastra sobre un campeón del tablero</span>
+        <span class="items-hint">Clic para seleccionar, luego clic en campeón</span>
       </div>
       <div id="itemsPanel" class="items-panel-list"></div>
     </aside>
 
   </div><!-- /builder-main -->
-
 </div><!-- /builder-root -->
 
 <!-- MODAL IMPORTAR -->
@@ -116,7 +124,7 @@
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-title">⬇ Importar Composición</div>
     <p class="modal-desc">Pega el código exportado por el Comp Builder (empieza con "TFT:"):</p>
-    <textarea id="importCode" class="modal-input" placeholder="Pega aquí el código TFT:..."></textarea>
+    <textarea id="importCode" class="modal-input" placeholder="TFT:..."></textarea>
     <div class="modal-actions">
       <button class="btn-sec" onclick="closeImport()">Cancelar</button>
       <button class="btn-pri" onclick="importComp()">Importar</button>
