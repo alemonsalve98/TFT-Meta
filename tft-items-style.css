@@ -27,6 +27,7 @@
   --tA: #ff9800;
   --tB: #4caf50;
   --tC: #607d8b;
+  --tE: #0d4675;
 }
 
 *, *::before, *::after {
@@ -271,12 +272,14 @@ nav {
 .tb2.tS { color: var(--tS); border-color: rgba(229, 57, 53, .35); }
 .tb2.tA { color: var(--tA); border-color: rgba(255, 152, 0, .35); }
 .tb2.tB { color: var(--tB); border-color: rgba(76, 175, 80, .35); }
-.tb2.tC { color: var(--tC); border-color: rgba(96, 125, 139, .35); }
+.tb2.tC { color: var(--tC); border-color: rgba(96, 125, 139, .35);}
+.tb2.tE { color: var(--tE); border-color: rgba(0, 229, 255, .35); }
 
 .tb2.on.tS { background: rgba(229, 57, 53, .12); }
 .tb2.on.tA { background: rgba(255, 152, 0, .12); }
 .tb2.on.tB { background: rgba(76, 175, 80, .12); }
-.tb2.on.tC { background: rgba(96, 125, 139, .12); }
+.tb2.on.tC { background: rgba(96, 125, 139, .12);}
+.tb2.on.tE { background: rgba(0, 229, 255, .12); }
 
 /* ==========================================================================
    5. GRID & ITEM CARDS
@@ -335,6 +338,8 @@ nav {
 .icard.tA::before { background: var(--tA); box-shadow: 0 0 8px rgba(255, 152, 0, .4); }
 .icard.tB::before { background: var(--tB); box-shadow: 0 0 8px rgba(76, 175, 80, .3); }
 .icard.tC::before { background: var(--tC); }
+.icard.tE::before { background: var(--tE); }
+
 
 .icard:hover {
   border-color: rgba(255, 255, 255, .12);
@@ -345,6 +350,7 @@ nav {
 .icard.tS:hover { box-shadow: 0 4px 20px rgba(229, 57, 53, .12); }
 .icard.tA:hover { box-shadow: 0 4px 20px rgba(255, 152, 0, .10); }
 .icard.tB:hover { box-shadow: 0 4px 20px rgba(76, 175, 80, .10); }
+
 
 .icard-top {
   display: flex;
@@ -426,7 +432,8 @@ nav {
 .tier-badge.tS { color: #000; background: var(--tS); }
 .tier-badge.tA { color: #000; background: var(--tA); }
 .tier-badge.tB { color: #000; background: var(--tB); }
-.tier-badge.tC { color: var(--txt); background: var(--tC); }
+.tier-badge.tC { color: var(--txt); background: var(--tC);}
+.tier-badge.tE { color: var(--txt); background: var(--tE);}
 
 .icard-stats {
   display: flex;

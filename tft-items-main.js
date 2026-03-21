@@ -57,6 +57,28 @@ const ITEM = {
   GiantsBelt:              { url: SA+'GiantsBelt.png', l:"Giant's Belt", tier:'C', e:'🟤' },
   Kindlegem:               { url: SA+'Kindlegem.png', l:'Kindlegem', tier:'C', e:'💚' },
   Spatula:                 { url: SA+'Spatula.png', l:'Spatula', tier:'C', e:'🍳' },
+  FryingPan:               { url: SA+'FryingPan.png', l:'Frying Pan', tier:'C'},
+  VoidEmblem:              { url: SA+'VoidEmblem.png', l:'Void Emblem',
+  tier:'E'},
+  NoxusEmblem:             { url: SA+'NoxusEmblem.png', l:'Noxus Emblem',
+  tier:'E'},
+  DemaciaEmblem:          { url: SA+'DemaciaEmblem.png', l:'Demacia Emblem', tier:'E'},
+  FreljordEmblem:          { url: SA+'FreljordEmblem.png', l:'Freljord Emblem', tier:'E'},
+  IoniaEmblem:             { url: SA+'IoniaEmblem.png', l:'Ionia Emblem',
+  tier:'E'},
+  BilgewaterEmblem:        { url: SA+'BilgewaterEmblem.png',l:'Bilgewater Emblem', tier:'E'},
+  ZaunEmblem:              { url: SA+'ZaunEmblem.png', l:'Zaun Emblem', tier:'E'},
+  YordleEmblem:            { url: SA+'YordleEmblem.png', l:'Yordle Emblem', tier:'E'},
+  DefenderEmblem:          { url: SA+'DefenderEmblem.png', l:'Defender Emblem', tier:'E'},
+  SlayerEmblem:            { url: SA+'SlayerEmblem.png', l:'Slayer Emblem', tier:'E'},
+  BruiserEmblem:           { url: SA+'BruiserEmblem.png', l:'Bruiser Emblem', tier:'E'},
+  VanquisherEmblem:        { url: SA+'VanquisherEmblem.png', l:'Vanquisher Emblem', tier:'E'},
+  QuickstrikerEmblem:      { url: SA+'QuickstrikerEmblem.png', l:'Quickstriker Emblem', tier:'E'},
+  ArcanistEmblem:          { url: SA+'ArcanistEmblem.png', l:'Arcanist Emblem', tier:'E'},
+  JuggernautEmblem:        { url: SA+'JuggernautEmblem.png', l:'Juggernaut Emblem', tier:'E'},
+  InvokerEmblem:           { url: SA+'InvokerEmblem.png', l:'Invoker Emblem', tier:'E'},   
+
+
 };
 
 function iUrl(k)   { return (ITEM[k]||{}).url||''; }
@@ -392,6 +414,77 @@ const ITEMS = [
   {id:'Spatula',          name:'Spatula',                 tier:'C', cat:'Componente',
    stats:[{l:'Especial',v:'Emblema de rasgo'}], desc:'Combina con otro componente para crear un Emblema de Rasgo.',
    bestOn:[],components:[]},
+
+  {id:'FryingPan',          name:'Frying Pan',                 tier:'C', cat:'Componente',
+   stats:[{l:'Especial',v:'Emblema de rasgo'}], desc:'Combina con otro componente para crear un Emblema de Rasgo.',
+   bestOn:[],components:[]},
+
+  // ─── EMBLEMAS ──────────────────────────────────────────────────────────
+  {id:'VoidEmblem', name:'Void Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Vel. Ataque',v:'+10%'}], desc:'El portador adquiere el rasgo de Vacio.',bestOn:[],components:['Spatula','RecurveBow']},
+
+  
+  {id:'NoxusEmblem', name:'Noxus Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'DA',v:'+10%'}], desc:'El portador adquiere el rasgo de Noxus.',bestOn:[],components:['Spatula','BFSword']}, 
+
+
+  {id:'DemaciaEmblem', name:'Demacia Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Armor',v:'+20'}], desc:'El portador adquiere el rasgo de Demacia.',bestOn:[],components:['Spatula','ChainVest']},
+
+  
+  {id:'FreljordEmblem', name:'Freljord Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Vida',v:'+150'}], desc:'El portador adquiere el rasgo de Freljord.',bestOn:[],components:['Spatula','GiantsBelt']}, 
+
+    
+  {id:'IoniaEmblem', name:'Ionia Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'AP',v:'+10'}], desc:'El portador adquiere el rasgo de Ionia.',bestOn:[],components:['Spatula','NeedlesslyLargeRod']}, 
+
+    
+  {id:'BilgewaterEmblem', name:'Bilgewater Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Reg.Mana',v:'+1'}], desc:'El portador adquiere el rasgo de Bilgewater.',bestOn:[],components:['Spatula','GiantsBelt']}, 
+
+    
+  {id:'ZaunEmblem', name:'Zaun Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Prob.Critico',v:'+20%'}], desc:'El portador adquiere el Zaun',bestOn:[],components:['Spatula','SparringGloves']}, 
+
+    
+  {id:'YordleEmblem', name:'Yordle Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Mag. Resist',v:'+20'}], desc:'El portador adquiere el rasgo de Yordle.',bestOn:[],components:['Spatula','NegatronCloak']}, 
+
+    
+  {id:'DefenderEmblem', name:'Defender Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Armadura',v:'+20'}], desc:'El portador adquiere el rasgo de Defender.',bestOn:[],components:['Spatula','ChainVest']},
+    
+  
+  {id:'SlayerEmblem', name:'Slayer Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'DA',v:'+10%'}], desc:'El portador adquiere el rasgo de Slayer.',bestOn:[],components:['Spatula','BFSword']},
+    
+  
+  {id:'BruiserEmblem', name:'Bruiser Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Vida',v:'+150'}], desc:'El portador adquiere el rasgo de Bruiser.',bestOn:[],components:['Spatula','GiantsBelts']},
+    
+  
+  {id:'VanquisherEmblem', name:'Vanquisher Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Prob.Critico',v:'+20%'}], desc:'El portador adquiere el rasgo de Vanquisher.',bestOn:[],components:['FryingPan','SparringGloves']},
+    
+  
+  {id:'QuickstrikerEmblem', name:'Quickstriker Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Vel.Ataque',v:'+10%'}], desc:'El portador adquiere el rasgo de Quickstriker.',bestOn:[],components:['FryingPan','RecurveBow']},
+    
+  
+  {id:'ArcanistEmblem', name:'Arcanist Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'AP',v:'+10%'}], desc:'El portador adquiere el rasgo de Arcanist.',bestOn:[],components:['FryingPan','NeedlesslyLargeRod']},
+  
+  
+  {id:'JuggernautEmblem', name:'Juggernaut Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'MR',v:'+20'}], desc:'El portador adquiere el rasgo de Juggernaut.',bestOn:[],components:['FryingPan','NegatronCloak']}, 
+    
+    
+  {id:'InvokerEmblem', name:'Invoker Emblem', tier:'E', cat:'Emblema', 
+    stats:[{l:'Reg. Mana',v:'+1'}], desc:'El portador adquiere el rasgo de Arcanist.',bestOn:[],components:['FryingPan','TearoftheGoddess']},   
+    
+
+
 ];
 
 const COMP_ICONS = {
@@ -408,7 +501,7 @@ const COMP_ICONS = {
 };
 
 // ── STATE ─────────────────────────────────────────────────────
-let CAT='all', TIERS=new Set(['S','A','B','C']);
+let CAT='all', TIERS=new Set(['S','A','B','C','E']);
 
 function visible(){
   const q=(document.getElementById('SI')?.value||'').toLowerCase();
@@ -488,7 +581,7 @@ function render(){
 
   // Group by category if showing "all"
   const cats=CAT==='all'
-    ? ['Completo','Componente','Soporte','Artefacto']
+    ? ['Completo','Componente','Soporte','Artefacto','Emblema']
     : [CAT];
 
   let html='';
@@ -506,7 +599,7 @@ function render(){
 function renderSidebar(){
   // Tier summary
   const tierSummary=document.getElementById('TIER_SUMMARY');
-  ['S','A','B','C'].forEach(t=>{
+  ['S','A','B','C','E'].forEach(t=>{
     const count=ITEMS.filter(it=>it.tier===t&&it.cat==='Completo').length;
     tierSummary.innerHTML+=`<div class="wrow">
       <div class="wtier t${t}">${t}</div>
