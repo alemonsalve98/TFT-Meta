@@ -1,559 +1,559 @@
-
-Aquí tienes tu CSS ordenado siguiendo la cascada lógica (de lo más general a lo más específico) y manteniendo la agrupación por componentes, tal como solicitaste:
-
-CSS
-/* 1. VARIABLES Y RESET */
 :root {
-  --bg:     #080b10;
-  --surf:   #0d1117;
-  --surf2:  #131920;
-  --brd:    rgba(255,255,255,.06);
-  --txt:    #e8eaf0;
-  --mut:    #5a6070;
-  --dim:    #3a4050;
-  --s:      #e53935;
-  --sh:     rgba(229,57,53,.55);
-  --a:      #00e5ff;
-  --gold:   #ffd700;
-  --goldg:  rgba(255,215,0,.55);
-  --c1: #888; --c2: #4caf50; --c3: #2196f3; --c4: #9c27b0; --c5: #ffd700;
-  --tS: #e53935; --tA: #ff9800; --tB: #4caf50; --tC: #607d8b;
-}
-
-*, *::before, *::after { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-}
-
-/* 2. ELEMENTOS BASE (BODY) */
-body { 
-  background: var(--bg); 
-  color: var(--txt); 
-  font-family: 'Barlow Condensed', sans-serif; 
-  font-size: 15px; 
-  line-height: 1.4; 
-  min-height: 100vh; 
-}
-
-body::before { 
-  content: ''; 
-  position: fixed; 
-  inset: 0; 
-  opacity: .4; 
-  pointer-events: none; 
-  z-index: 0; 
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%rect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E"); 
-}
-
-/* 3. COMPONENTES DE NAVEGACIÓN Y ADS */
-.ad-top { 
-  width: 100%; 
-  background: var(--surf); 
-  border-bottom: 1px solid var(--brd); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  height: 90px; 
-  position: relative; 
-  z-index: 10; 
-}
-
-.ad-top-in { 
-  width: 728px; 
-  height: 90px; 
-  background: linear-gradient(135deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .005)); 
-  border: 1px dashed rgba(255, 255, 255, .08); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  color: var(--dim); 
-  font-family: 'Space Mono', monospace; 
-  font-size: 10px; 
-  letter-spacing: .1em; 
-  text-transform: uppercase; 
-}
-
-nav { 
-  position: sticky; 
-  top: 0; 
-  z-index: 100; 
-  background: rgba(8, 11, 16, .95); 
-  backdrop-filter: blur(20px); 
-  border-bottom: 1px solid var(--brd); 
-  padding: 0 32px; 
-  height: 60px; 
-  display: flex; 
-  align-items: center; 
-}
-
-.logo { 
-  font-family: 'Rajdhani', sans-serif; 
-  font-weight: 700; 
-  font-size: 20px; 
-  letter-spacing: .15em; 
-  text-transform: uppercase; 
-  color: var(--s); 
-  text-shadow: 0 0 20px var(--sh); 
-  text-decoration: none; 
-  flex-shrink: 0; 
-  margin-right: 40px; 
-}
-
-.nav-tabs { 
-  display: flex; 
-  height: 60px; 
-  flex: 1; 
-}
-
-.nav-tab { 
-  display: flex; 
-  align-items: center; 
-  padding: 0 20px; 
-  color: var(--mut); 
-  text-decoration: none; 
-  font-size: 13px; 
-  font-weight: 600; 
-  letter-spacing: .08em; 
-  text-transform: uppercase; 
-  border-bottom: 2px solid transparent; 
-  transition: all .2s; 
-  white-space: nowrap; 
+  --bg: #080b10;
+  --surf: #0d1117;
+  --surf2: #131920;
+  --brd: rgba(255, 255, 255, .06);
+  --txt: #e8eaf0;
+  --mut: #5a6070;
+  --dim: #3a4050;
+  --s: #e53935;
+  --sh: rgba(229, 57, 53, .55);
+  --a: #00e5ff;
+  --gold: #ffd700;
+  --goldg: rgba(255, 215, 0, .55);
+  --c1: #888;
+  --c2: #4caf50;
+  --c3: #2196f3;
+  --c4: #9c27b0;
+  --c5: #ffd700;
+  --tS: #e53935;
+  --tA: #ff9800;
+  --tB: #4caf50;
+  --tC: #607d8b;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: .4;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   1. ESTRUCTURA GLOBAL (NAV, ADS, ROOT)
+   ================================================================ */
+.ad-top {
+  width: 100%;
+  background: var(--surf);
+  border-bottom: 1px solid var(--brd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  position: relative;
+  z-index: 10;
+}
+
+.ad-top-in {
+  width: 728px;
+  height: 90px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .005));
+  border: 1px dashed rgba(255, 255, 255, .08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dim);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 11, 16, .95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--brd);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--s);
+  text-shadow: 0 0 20px var(--sh);
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-right: 40px;
 }
 
-.nav-tab:hover { 
-  color: var(--txt); 
-  border-bottom-color: rgba(255, 255, 255, .15); 
-}
-
-.nav-tab.on { 
-  color: var(--a); 
-  border-bottom-color: var(--a); 
+.nav-tabs {
+  display: flex;
+  height: 60px;
+  flex: 1;
 }
 
-.nav-right { 
-  margin-left: auto; 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
+.nav-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: var(--mut);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: var(--txt);
+  border-bottom-color: rgba(255, 255, 255, .15);
 }
-
-.patch { 
-  font-family: 'Space Mono', monospace; 
-  font-size: 11px; 
-  color: var(--mut); 
+
+.nav-tab.on {
+  color: var(--a);
+  border-bottom-color: var(--a);
 }
 
-/* 4. ESTRUCTURA PRINCIPAL (LAYOUT) */
-.builder-root { 
-  position: relative; 
-  z-index: 1; 
-  max-width: 1600px; 
-  margin: 0 auto; 
-  padding: 24px 20px; 
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.builder-main { 
-  display: flex; 
-  gap: 16px; 
-  align-items: flex-start; 
+.patch {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--mut);
 }
 
-.builder-topbar { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  margin-bottom: 20px; 
-  flex-wrap: wrap; 
+/* LAYOUT ROOT */
+.builder-root {
+  position: relative;
+  z-index: 1;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px 20px;
 }
 
-/* 5. INPUTS Y ACCIONES SUPERIORES */
-.comp-name-wrap { 
-  position: relative; 
-  flex: 1; 
-  min-width: 200px; 
+.builder-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-.comp-name-wrap .cni { 
-  position: absolute; 
-  left: 12px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  color: var(--dim); 
-  font-size: 13px; 
+.comp-name-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
 }
 
-.comp-name-wrap input { 
-  width: 100%; 
-  background: var(--surf); 
-  border: 1px solid var(--brd); 
-  border-radius: 4px; 
-  color: var(--txt); 
-  font-family: 'Barlow Condensed', sans-serif; 
-  font-size: 16px; 
-  font-weight: 600; 
-  padding: 9px 16px 9px 34px; 
-  outline: none; 
-  transition: border-color .2s; 
+.comp-name-wrap .cni {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dim);
+  font-size: 13px;
 }
 
-.comp-name-wrap input:focus { 
-  border-color: rgba(0, 229, 255, .4); 
+.comp-name-wrap input {
+  width: 100%;
+  background: var(--surf);
+  border: 1px solid var(--brd);
+  border-radius: 4px;
+  color: var(--txt);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 9px 16px 9px 34px;
+  outline: none;
+  transition: border-color .2s;
 }
 
-.comp-name-wrap input::placeholder { 
-  color: var(--dim); 
+.comp-name-wrap input:focus {
+  border-color: rgba(0, 229, 255, .4);
 }
 
-.topbar-actions { 
-  display: flex; 
-  gap: 7px; 
-  flex-wrap: wrap; 
+.comp-name-wrap input::placeholder {
+  color: var(--dim);
 }
 
-/* 6. BOTONES */
-.btn-sec, .btn-pri { 
-  position: relative; 
-  padding: 8px 16px; 
-  border-radius: 4px; 
-  font-family: 'Barlow Condensed', sans-serif; 
-  font-size: 13px; 
-  font-weight: 700; 
-  letter-spacing: .07em; 
-  text-transform: uppercase; 
-  cursor: pointer; 
-  transition: all .18s; 
-  border: 1px solid; 
-  white-space: nowrap; 
+.topbar-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
 }
 
-.btn-sec { 
-  background: var(--surf); 
-  border-color: var(--brd); 
-  color: var(--mut); 
+/* ================================================================
+   2. BOTONES Y ACCIONES
+   ================================================================ */
+.btn-sec, .btn-pri {
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .18s;
+  border: 1px solid;
+  white-space: nowrap;
 }
 
-.btn-sec:hover { 
-  background: var(--surf2); 
-  color: var(--txt); 
-  border-color: rgba(255, 255, 255, .15); 
+.btn-sec {
+  background: var(--surf);
+  border-color: var(--brd);
+  color: var(--mut);
 }
 
-.btn-pri { 
-  background: rgba(0, 229, 255, .08); 
-  border-color: var(--a); 
-  color: var(--a); 
+.btn-sec:hover {
+  background: var(--surf2);
+  color: var(--txt);
+  border-color: rgba(255, 255, 255, .15);
 }
 
-.btn-pri:hover { 
-  background: rgba(0, 229, 255, .15); 
+.btn-pri {
+  background: rgba(0, 229, 255, .08);
+  border-color: var(--a);
+  color: var(--a);
 }
 
-.btn-pri.accent { 
-  background: rgba(255, 215, 0, .08); 
-  border-color: var(--gold); 
-  color: var(--gold); 
+.btn-pri:hover {
+  background: rgba(0, 229, 255, .15);
 }
 
-.btn-pri.accent:hover { 
-  background: rgba(255, 215, 0, .18); 
+.btn-pri.accent {
+  background: rgba(255, 215, 0, .08);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
-.btn-pri.game { 
-  background: rgba(76, 175, 80, .08); 
-  border-color: #4caf50; 
-  color: #4caf50; 
+.btn-pri.accent:hover {
+  background: rgba(255, 215, 0, .18);
 }
 
-.btn-pri.game:hover { 
-  background: rgba(76, 175, 80, .18); 
+.btn-pri.game {
+  background: rgba(76, 175, 80, .08);
+  border-color: #4caf50;
+  color: #4caf50;
 }
 
-.btn-pri:disabled { 
-  opacity: .5; 
-  cursor: wait; 
+.btn-pri.game:hover {
+  background: rgba(76, 175, 80, .18);
 }
 
-.copy-ok { 
-  position: absolute; 
-  bottom: calc(100% + 6px); 
-  left: 50%; 
-  transform: translateX(-50%); 
-  background: #1a2332; 
-  border: 1px solid var(--brd); 
-  color: var(--a); 
-  font-size: 10px; 
-  font-family: 'Space Mono', monospace; 
-  padding: 3px 8px; 
-  border-radius: 3px; 
-  white-space: nowrap; 
-  pointer-events: none; 
-  opacity: 0; 
-  transition: opacity .2s; 
+.btn-pri:disabled {
+  opacity: .5;
+  cursor: wait;
 }
 
-.btn-pri.copied .copy-ok { 
-  opacity: 1; 
+.copy-ok {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2332;
+  border: 1px solid var(--brd);
+  color: var(--a);
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
 }
 
-/* 7. PANEL DE RASGOS (TRAITS) */
-.traits-col { 
-  width: 170px; 
-  flex-shrink: 0; 
-  position: sticky; 
-  top: 76px; 
-  max-height: calc(100vh - 100px); 
-  overflow-y: auto; 
-  scrollbar-width: thin; 
-  scrollbar-color: var(--dim) transparent; 
+.btn-pri.copied .copy-ok {
+  opacity: 1;
 }
 
-.traits-header { 
-  margin-bottom: 10px; 
+/* ================================================================
+   3. COLUMNA DE RASGOS (IZQUIERDA)
+   ================================================================ */
+.builder-main {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
 }
 
-.traits-title { 
-  font-family: 'Rajdhani', sans-serif; 
-  font-weight: 700; 
-  font-size: 13px; 
-  letter-spacing: .1em; 
-  text-transform: uppercase; 
-  color: var(--mut); 
-  display: block; 
+.traits-col {
+  width: 170px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 76px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dim) transparent;
 }
 
-.traits-hint { 
-  font-size: 10px; 
-  color: var(--dim); 
-  display: block; 
+.traits-header {
+  margin-bottom: 10px;
 }
 
-.traits-list { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 3px; 
+.traits-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  display: block;
 }
 
-.traits-empty { 
-  font-size: 11px; 
-  color: var(--dim); 
-  font-family: 'Space Mono', monospace; 
-  line-height: 1.5; 
+.traits-hint {
+  font-size: 10px;
+  color: var(--dim);
+  display: block;
 }
 
-.trait-row { 
-  display: flex; 
-  align-items: center; 
-  gap: 7px; 
-  padding: 5px 8px; 
-  border-radius: 4px; 
-  border: 1px solid var(--brd); 
-  background: var(--surf); 
-  transition: all .15s; 
+.traits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.trait-row.active { 
-  border-color: rgba(0, 229, 255, .3); 
-  background: rgba(0, 229, 255, .05); 
+.traits-empty {
+  font-size: 11px;
+  color: var(--dim);
+  font-family: 'Space Mono', monospace;
+  line-height: 1.5;
 }
 
-.trait-row.active-gold { 
-  border-color: rgba(255, 215, 0, .35); 
-  background: rgba(255, 215, 0, .06); 
+.trait-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--brd);
+  background: var(--surf);
+  transition: all .15s;
 }
 
-.trait-icon { 
-  width: 18px; 
-  height: 18px; 
-  flex-shrink: 0; 
-  position: relative; 
-  overflow: hidden; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
+.trait-row.active {
+  border-color: rgba(0, 229, 255, .3);
+  background: rgba(0, 229, 255, .05);
 }
 
-.trait-icon img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: contain; 
+.trait-row.active-gold {
+  border-color: rgba(255, 215, 0, .35);
+  background: rgba(255, 215, 0, .06);
 }
 
-.trait-name { 
-  flex: 1; 
-  font-size: 11px; 
-  color: var(--mut); 
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+.trait-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.trait-row.active .trait-name { 
-  color: var(--txt); 
+.trait-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.trait-count { 
-  font-family: 'Space Mono', monospace; 
-  font-size: 10px; 
-  padding: 1px 6px; 
-  border-radius: 3px; 
-  background: var(--surf2); 
-  color: var(--dim); 
-  flex-shrink: 0; 
+.trait-name {
+  flex: 1;
+  font-size: 11px;
+  color: var(--mut);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.trait-row.active .trait-count { 
-  background: rgba(0, 229, 255, .12); 
-  color: var(--a); 
+.trait-row.active .trait-name {
+  color: var(--txt);
 }
 
-.trait-row.active-gold .trait-count { 
-  background: rgba(255, 215, 0, .12); 
-  color: var(--gold); 
+.trait-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--surf2);
+  color: var(--dim);
+  flex-shrink: 0;
 }
 
-/* 8. COLUMNA CENTRAL Y TABLERO (BOARD) */
-.board-col { 
-  flex: 1; 
-  min-width: 0; 
+.trait-row.active .trait-count {
+  background: rgba(0, 229, 255, .12);
+  color: var(--a);
 }
 
-.board-label { 
-  margin-bottom: 10px; 
+.trait-row.active-gold .trait-count {
+  background: rgba(255, 215, 0, .12);
+  color: var(--gold);
 }
 
-.bl-title { 
-  font-family: 'Space Mono', monospace; 
-  font-size: 9px; 
-  letter-spacing: .12em; 
-  text-transform: uppercase; 
-  color: var(--dim); 
-  display: block; 
+/* ================================================================
+   4. COLUMNA CENTRAL: CABECERA Y CURSOR
+   ================================================================ */
+.board-col {
+  flex: 1;
+  min-width: 0;
 }
 
-.bl-hint { 
-  font-size: 11px; 
-  color: var(--dim); 
-  display: block; 
-  margin-top: 2px; 
+.board-label {
+  margin-bottom: 10px;
 }
 
-.item-cursor { 
-  display: none; 
-  align-items: center; 
-  gap: 8px; 
-  padding: 6px 12px; 
-  background: rgba(255, 215, 0, .1); 
-  border: 1px solid var(--gold); 
-  border-radius: 4px; 
-  font-size: 12px; 
-  color: var(--gold); 
-  margin-bottom: 10px; 
-  animation: ic-pop .15s ease; 
+.bl-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  display: block;
 }
 
-@keyframes ic-pop { 
-  from { opacity: 0; transform: translateY(-4px); } 
-  to { opacity: 1; transform: none; } 
+.bl-hint {
+  font-size: 11px;
+  color: var(--dim);
+  display: block;
+  margin-top: 2px;
 }
 
-.item-cursor.active { 
-  display: flex; 
+.item-cursor {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(255, 215, 0, .1);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  animation: ic-pop .15s ease;
 }
 
-.ic-img { 
-  width: 26px; 
-  height: 26px; 
-  border-radius: 4px; 
-  overflow: hidden; 
-  flex-shrink: 0; 
-  position: relative; 
-  background: var(--surf2); 
-  border: 1px solid rgba(255, 215, 0, .3); 
+@keyframes ic-pop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
 }
 
-.ic-img img { 
-  position: absolute; 
-  inset: 0; 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  z-index: 2; 
+.item-cursor.active {
+  display: flex;
 }
 
-.ic-hint { 
-  font-size: 10px; 
-  color: rgba(255, 215, 0, .6); 
-  font-family: 'Space Mono', monospace; 
+.ic-img {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--surf2);
+  border: 1px solid rgba(255, 215, 0, .3);
 }
 
-/* 9. HEXÁGONOS (TABLERO) */
-.hex-board { 
-  display: flex; 
-  flex-direction: column; 
-  user-select: none; 
-  overflow: visible; 
+.ic-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
 }
 
-.hex-row-wrap { 
-  overflow: visible; 
-  margin-bottom: 24px; 
+.ic-hint {
+  font-size: 10px;
+  color: rgba(255, 215, 0, .6);
+  font-family: 'Space Mono', monospace;
 }
 
-.hex-row { 
-  display: flex; 
-  align-items: flex-start; 
-  margin-bottom: -14px; 
-  overflow: visible; 
+/* ================================================================
+   5. TABLERO HEXAGONAL (CLIP-PATH)
+   ================================================================ */
+.hex-board {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  overflow: visible;
 }
 
-.hex-row.offset { 
-  margin-left: 37px; 
+.hex-row-wrap {
+  overflow: visible;
+  margin-bottom: 24px;
 }
 
-.hex-wrap { 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  margin: 0 3px; 
-  overflow: visible; 
-  position: relative; 
+.hex-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: -14px;
+  overflow: visible;
 }
 
-.hex-cell { 
-  width: 68px; 
-  height: 78px; 
-  position: relative; 
-  flex-shrink: 0; 
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-  transition: filter .15s, transform .15s; 
-  cursor: crosshair; 
-  overflow: hidden; 
+.hex-row.offset {
+  margin-left: 37px;
 }
 
-.hex-cell.empty { 
-  background: rgba(255, 255, 255, .08); 
+.hex-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 3px;
+  overflow: visible;
+  position: relative;
 }
 
-.hex-cell.empty:hover { 
-  background: rgba(0, 229, 255, .18); 
+.hex-cell {
+  width: 68px;
+  height: 78px;
+  position: relative;
+  flex-shrink: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: filter .15s, transform .15s;
+  cursor: crosshair;
+  overflow: hidden;
 }
 
-.hex-cell.can-receive { 
-  background: rgba(255, 215, 0, .18) !important; 
-}
+.hex-cell.empty { background: rgba(255, 255, 255, .08); }
+.hex-cell.empty:hover { background: rgba(0, 229, 255, .18); }
 
-.hex-cell.can-receive:hover { 
-  background: rgba(255, 215, 0, .28) !important; 
-}
+.hex-cell.can-receive { background: rgba(255, 215, 0, .18) !important; }
+.hex-cell.can-receive:hover { background: rgba(255, 215, 0, .28) !important; }
 
-.hex-wrap.drag-over .hex-cell { 
-  background: rgba(0, 229, 255, .3) !important; 
-  filter: brightness(1.5) !important; 
-  transform: scale(1.06); 
+.hex-wrap.drag-over .hex-cell {
+  background: rgba(0, 229, 255, .3) !important;
+  filter: brightness(1.5) !important;
+  transform: scale(1.06);
 }
 
-/* COLORES POR COSTO EN HEX */
+/* Colores de costo */
 .hex-cell.c1 { background: linear-gradient(150deg, #3a3a3a, #1a1a1a); }
 .hex-cell.c2 { background: linear-gradient(150deg, #1e5230, #0d2e1a); }
 .hex-cell.c3 { background: linear-gradient(150deg, #0e3068, #071a3e); }
@@ -561,65 +561,61 @@ nav {
 .hex-cell.c5 { background: linear-gradient(150deg, #6e5000, #3e2d00); }
 .hex-cell.c7 { background: linear-gradient(150deg, #8B0000, #4a0000); }
 
-.hex-cell:not(.empty):hover { 
-  filter: brightness(1.18); 
-  transform: scale(1.05); 
-  z-index: 5; 
+.hex-cell:not(.empty):hover {
+  filter: brightness(1.18);
+  transform: scale(1.05);
+  z-index: 5;
 }
 
-/* CONTENIDO INTERNO HEX */
-.hex-cell .hc-img { 
-  position: absolute; 
-  inset: 0; 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  object-position: top center; 
-  display: block; 
-  z-index: 2; 
-  pointer-events: none; 
+.hex-cell .hc-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.hex-cell .hc-ini { 
-  position: absolute; 
-  inset: 0; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-family: 'Rajdhani', sans-serif; 
-  font-weight: 700; 
-  font-size: 14px; 
-  color: rgba(255, 255, 255, .7); 
-  z-index: 1; 
-  pointer-events: none; 
+.hex-cell .hc-ini {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255, 255, 255, .7);
+  z-index: 1;
+  pointer-events: none;
 }
 
-.hex-cell .hc-name { 
-  position: absolute; 
-  bottom: 7px; 
-  left: 0; 
-  right: 0; 
-  text-align: center; 
-  font-size: 7px; 
-  font-weight: 700; 
-  text-transform: uppercase; 
-  color: #fff; 
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 1); 
-  z-index: 5; 
-  opacity: 0; 
-  transition: opacity .15s; 
-  pointer-events: none; 
+.hex-cell .hc-name {
+  position: absolute;
+  bottom: 7px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 7px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .15s;
+  pointer-events: none;
 }
 
-.hex-cell:hover .hc-name { 
-  opacity: 1; 
+.hex-cell:hover .hc-name {
+  opacity: 1;
 }
 
-Aquí tienes el resto del CSS ordenado por secciones lógicas, manteniendo la estructura de cascada y agrupando los componentes (Ítems del tablero, Panel de Equipamiento, Pool de Campeones, Panel de Objetos y Modales).
-
-CSS
 /* ================================================================
-   10. ÍTEMS EN EL TABLERO (DENTRO DE LOS HEX)
+   6. ÍTEMS EN EL TABLERO Y EQUIPAMIENTO
    ================================================================ */
 .hex-items {
   display: flex;
@@ -630,7 +626,6 @@ CSS
   pointer-events: all;
 }
 
-/* Ítem individual (Ficha pequeña) */
 .hci {
   width: 21px;
   height: 21px;
@@ -678,9 +673,7 @@ CSS
   opacity: 1;
 }
 
-/* ================================================================
-   11. PANEL DE EQUIPAMIENTO (RESUMEN INFERIOR)
-   ================================================================ */
+/* PANEL DE EQUIPAMIENTO */
 .equip-panel {
   margin-top: 24px;
   background: var(--surf);
@@ -723,7 +716,6 @@ CSS
   gap: 8px;
 }
 
-/* Fila de Campeón Equipado */
 .equip-row {
   display: flex;
   align-items: center;
@@ -773,7 +765,6 @@ CSS
   z-index: 1;
 }
 
-/* Bordes por costo en Avatar */
 .equip-avatar.c1 { border-color: var(--c1); }
 .equip-avatar.c2 { border-color: var(--c2); }
 .equip-avatar.c3 { border-color: var(--c3); }
@@ -838,7 +829,6 @@ CSS
   font-size: 14px;
 }
 
-/* Bordes por Tier en Equipamiento */
 .equip-item-box.tS { border-color: var(--tS); box-shadow: 0 0 10px rgba(229, 57, 53, .6); }
 .equip-item-box.tA { border-color: var(--tA); box-shadow: 0 0 10px rgba(255, 152, 0, .55); }
 .equip-item-box.tB { border-color: var(--tB); box-shadow: 0 0 8px rgba(76, 175, 80, .5); }
@@ -874,7 +864,7 @@ CSS
 }
 
 /* ================================================================
-   12. POOL DE CAMPEONES (SELECTOR)
+   7. POOL DE CAMPEONES
    ================================================================ */
 .pool-section {
   background: var(--surf);
@@ -929,7 +919,6 @@ CSS
   margin: 4px 0;
 }
 
-/* Fichas del pool */
 .pool-champ {
   width: 46px;
   height: 52px;
@@ -989,7 +978,7 @@ CSS
 }
 
 /* ================================================================
-   13. PANEL DE OBJETOS (DERECHA / LISTADO)
+   8. PANEL DE OBJETOS (DERECHA)
    ================================================================ */
 .items-col {
   width: 205px;
@@ -1042,7 +1031,6 @@ CSS
 .item-tier-sep.tB { color: var(--tB); }
 .item-tier-sep.tC { color: var(--dim); }
 
-/* Fila de ítem en panel */
 .item-row {
   display: flex;
   align-items: center;
@@ -1113,7 +1101,7 @@ CSS
 }
 
 /* ================================================================
-   14. MODALES, FOOTER Y RESPONSIVE
+   9. MODALES, FOOTER Y RESPONSIVE
    ================================================================ */
 .modal-overlay {
   position: fixed;
