@@ -1,52 +1,182 @@
+'use strict';
+
 // ═══════════════════════════════════════════════════════════════════
 //  CDragon BASE — verified working (same as tft-items.html)
 // ═══════════════════════════════════════════════════════════════════
-const BASE = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/';
-
+const BASE = 'https://sunderarmor.com/characters/Skin/16/';
+const CDRAGON   = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/';
 // ── CHAMPION URL ──────────────────────────────────────────────────
 // Verified from tftchampions-teamplanner.json:
 // squareIconPath = /lol-game-data/assets/ASSETS/Characters/TFT16_Annie/HUD/TFT16_Annie_Square.TFT_Set16.jpg
 // → BASE + assets/characters/tft16_annie/hud/tft16_annie_square.tft_set16.jpg
 
 const CHAMP_ID = {
-  Annie:'tft16_annie', Tibbers:'Tibbers',Taric:'tft16_taric',
-  Swain:'tft16_swain',Neeko:'tft16_neeko',Shyvana:'tft16_shyvana',
-  Lux:'tft16_lux',Fiddle:'tft16_fiddlesticks',Sylas:'tft16_sylas',
-  Mel:'tft16_mel',Vi:'tft16_vi',Ambessa:'tft16_ambessa',
-  Seraphine:'tft16_seraphine',Braum:'tft16_braum',Loris:'tft16_loris',
-  Yorick:'tft16_yorick',Gwen:'tft16_gwen',Kalista:'tft16_kalista',
-  Thresh:'tft16_thresh',Nautilus:'tft16_nautilus',Ornn:'tft16_ornn',
-  Wukong:'tft16_wukong',Lucian:'tft16_lucian',MF:'tft16_missfortune',
-  TahmK:'tft16_tahmkench',Ashe:'tft16_ashe',Sejuani:'tft16_sejuani',
-  Jinx:'tft16_jinx',Warwick:'tft16_warwick',Draven:'tft16_draven',
-  Skarner:'tft16_skarner',Kindred:'tft16_kindred',Ahri:'tft16_ahri',
-  Kennen:'tft16_kennen',Kobuko:'tft16_kobuko',Aatrox:'tft16_aatrox',
-  Yone:'tft16_yone',Sett:'tft16_sett',Anivia:'tft16_anivia',
-  Lissandra:'tft16_lissandra',Zilean:'tft16_zilean',Volibear:'tft16_volibear',
-  Jarvan:'tft16_jarvaniv',Garen:'tft16_garen',XinZhao:'tft16_xinzhao',
-  Sona:'tft16_sona',Poppy:'tft16_poppy',Viego:'tft16_viego',
-  'Kog\'Maw': 'tft16_kogmaw',
+  Viego:      { img:'Viego',        id:'tft16_viego',         cost:1, traits:['ShadowIsles','Quickstriker'] },
+  Sona:       { img:'Sona',         id:'tft16_sona',          cost:1, traits:['Demacia','Invoker'] },
+  Anivia:     { img:'Anivia',       id:'tft16_anivia',        cost:1, traits:['Freljord','Invoker'] },
+  Blitz:      { img:'Blitzcrank',   id:'tft16_blitzcrank',    cost:1, traits:['Zaun','Juggernaut'] },
+  Briar:      { img:'Briar',        id:'tft16_briar',         cost:1, traits:['Noxus','Slayer','Juggernaut'] },
+  Caitlyn:    { img:'Caitlyn',      id:'tft16_caitlyn',       cost:1, traits:['Piltover','Longshot'] },
+  Illaoi:     { img:'Illaoi',       id:'tft16_illaoi',        cost:1, traits:['Bilgewater','Bruiser'] },
+  Jarvaniv:   { img:'JarvanIV',     id:'tft16_jarvaniv',      cost:1, traits:['Demacia','Defender'] },
+  Jhin:       { img:'Jhin',         id:'tft16_jhin',          cost:1, traits:['Ionia','Longshot'] },
+  Kogmaw:     { img:'Kogmaw',       id:'tft16_kogmaw',        cost:1, traits:['Void','Arcanist','Longshot'] },
+  Lulu:       { img:'Lulu',         id:'tft16_lulu',          cost:1, traits:['Yordle','Arcanist'] },
+  Qiyana:     { img:'Qiyana',       id:'tft16_qiyana',        cost:1, traits:['Ixtal','Slayer'] },
+  Rumble:     { img:'Rumble',       id:'tft16_rumble',        cost:1, traits:['Yordle','Defender'] },
+  Shen:       { img:'Shen',         id:'tft16_shen',          cost:1, traits:['Ionia','Bruiser'] },
+
+  // ── COSTO 2 ──
+  Neeko:      { img:'Neeko',        id:'tft16_neeko',         cost:2, traits:['Ixtal','Arcanist','Defender'] },
+  Vi:         { img:'Vi',           id:'tft16_vi',            cost:2, traits:['Piltover','Zaun','Defender'] },
+  Ashe:       { img:'Ashe',         id:'tft16_ashe',          cost:2, traits:['Freljord','Quickstriker'] },
+  Yorick:     { img:'Yorick',       id:'tft16_yorick',        cost:2, traits:['ShadowIsles','Warden'] },
+  XinZhao:    { img:'XinZhao',      id:'tft16_xinzhao',       cost:2, traits:['Demacia','Ionia','Warden'] },
+  Poppy:      { img:'Poppy',        id:'tft16_poppy',         cost:2, traits:['Yordle','Demacia','Juggernaut'] },
+  Aphelios:   { img:'Aphelios',     id:'tft16_aphelios',      cost:2, traits:['Targon'] },
+  Bardo:      { img:'Bard',         id:'tft16_bardo',         cost:2, traits:['Caretaker'] },
+  ChoGath:    { img:'Chogath',      id:'tft16_chogath',       cost:2, traits:['Void','Juggernaut'] },
+  Ekko:       { img:'Ekko',         id:'tft16_ekko',          cost:2, traits:['Zaun','Disruptor'] },
+  Graves:     { img:'Graves',       id:'tft16_graves',        cost:2, traits:['Bilgewater','Gunslinger'] },
+  Orianna:    { img:'Orianna',      id:'tft16_orianna',       cost:2, traits:['Piltover','Invoker'] },
+  RekSai:     { img:'RekSai',       id:'tft16_reksai',        cost:2, traits:['Void','Vanquisher'] },
+  Sion:       { img:'Sion',         id:'tft16_sion',          cost:2, traits:['Noxus','Bruiser'] },
+  Teemo:      { img:'Teemo',        id:'tft16_teemo',         cost:2, traits:['Yordle','Longshot'] },
+  Tristana:   { img:'Tristana',     id:'tft16_tristana',      cost:2, traits:['Yordle','Gunslinger'] },
+  Tryndamere: { img:'Tryndamere',   id:'tft16_tryndamere',    cost:2, traits:['Freljord','Slayer'] },
+  TwistedFate:{ img:'TwistedFate',  id:'tft16_twistedfate',   cost:2, traits:['Bilgewater','Quickstriker'] },
+  Yasuo:      { img:'Yasuo',        id:'tft16_yasuo',         cost:2, traits:['Ionia','Slayer'] },
+
+  // ── COSTO 3 ──
+  Loris:      { img:'Loris',        id:'tft16_beardy',        cost:3, traits:['Piltover','Warden'] },
+  Gwen:       { img:'Gwen',         id:'tft16_gwen',          cost:3, traits:['ShadowIsles','Disruptor'] },
+  Jinx:       { img:'Jinx',         id:'tft16_jinx',          cost:3, traits:['Zaun','Gunslinger'] },
+  Nautilus:   { img:'Nautilus',     id:'tft16_nautilus',      cost:3, traits:['Bilgewater','Juggernaut','Warden'] },
+  Kennen:     { img:'Kennen',       id:'tft16_kennen',        cost:3, traits:['Ionia','Yordle','Defender'] },
+  Ahri:       { img:'Ahri',         id:'tft16_ahri',          cost:3, traits:['Ionia','Arcanist'] },
+  Kobuko:     { img:'Kobuko&Yuumi', id:'tft16_kobuko',        cost:3, traits:['Yordle','Invoker','Bruiser'] },
+  Sejuani:    { img:'Sejuani',      id:'tft16_sejuani',       cost:3, traits:['Freljord','Defender'] },
+  Draven:     { img:'Draven',       id:'tft16_draven',        cost:3, traits:['Noxus','Quickstriker'] },
+  Darius:     { img:'Darius',       id:'tft16_darius',        cost:3, traits:['Noxus','Defender'] },
+  DrMundo:    { img:'DrMundo',      id:'tft16_drmundo',       cost:3, traits:['Zaun','Bruiser'] },
+  Gangplank:  { img:'Gangplank',    id:'tft16_gangplank',     cost:3, traits:['Bilgewater','Slayer','Vanquisher'] },
+  LeBlanc:    { img:'Leblanc',      id:'tft16_leblanc',       cost:3, traits:['Noxus','Invoker'] },
+  Leona:      { img:'Leona',        id:'tft16_leona',         cost:3, traits:['Targon'] },
+  Malzahar:   { img:'Malzahar',     id:'tft16_malzahar',      cost:3, traits:['Void','Disruptor'] },
+  Milio:      { img:'Milio',        id:'tft16_milio',         cost:3, traits:['Ixtal','Invoker'] },
+  Vayne:      { img:'Vayne',        id:'tft16_vayne',         cost:3, traits:['Demacia','Longshot'] },
+  Zoe:        { img:'Zoe',          id:'tft16_zoe',           cost:3, traits:['Targon'] },
+
+  // ── COSTO 4 ──
+  Taric:      { img:'Taric',        id:'tft16_taric',         cost:4, traits:['Targon'] },
+  Swain:      { img:'Swain',        id:'tft16_swain',         cost:4, traits:['Noxus','Arcanist','Juggernaut'] },
+  Lux:        { img:'Lux',          id:'tft16_lux',           cost:4, traits:['Demacia','Arcanist'] },
+  Ambessa:    { img:'Ambessa',      id:'tft16_ambessa',       cost:4, traits:['Noxus','Vanquisher'] },
+  Braum:      { img:'Braum',        id:'tft16_braum',         cost:4, traits:['Freljord','Warden'] },
+  Kalista:    { img:'Kalista',      id:'tft16_kalista',       cost:4, traits:['ShadowIsles','Vanquisher'] },
+  Wukong:     { img:'Wukong',       id:'tft16_wukong',        cost:4, traits:['Ionia','Bruiser'] },
+  MF:         { img:'MissFortune',  id:'tft16_missfortune',   cost:4, traits:['Bilgewater','Gunslinger'] },
+  Warwick:    { img:'Warwick',      id:'tft16_warwick',       cost:4, traits:['Zaun','Quickstriker'] },
+  Skarner:    { img:'Skarner',      id:'tft16_skarner',       cost:4, traits:['Ixtal'] },
+  Yone:       { img:'Yone',         id:'tft16_yone',          cost:4, traits:['Ionia','Slayer'] },
+  Garen:      { img:'Garen',        id:'tft16_garen',         cost:4, traits:['Demacia','Defender'] },
+  Lissandra:  { img:'Lissandra',    id:'tft16_lissandra',     cost:4, traits:['Freljord','Invoker'] },
+  Seraphine:  { img:'Seraphine',    id:'tft16_seraphine',     cost:4, traits:['Piltover','Disruptor'] },
+  BelVeth:    { img:'Belveth',      id:'tft16_belveth',       cost:4, traits:['Void','Slayer'] },
+  Diana:      { img:'Diana',        id:'tft16_diana',         cost:4, traits:['Targon'] },
+  Fizz:       { img:'Fizz',         id:'tft16_fizz',          cost:4, traits:['Bilgewater','Yordle'] },
+  KaiSa:      { img:'Kaisa',        id:'tft16_kaisa',         cost:4, traits:['Void','Longshot','Assimilator'] },
+  Nasus:      { img:'Nasus',        id:'tft16_nasus',         cost:4, traits:['Shurima'] },
+  Nidalee:    { img:'Nidalee',      id:'tft16_nidalee',       cost:4, traits:['Ixtal','Huntress'] },
+  Renekton:   { img:'Renekton',     id:'tft16_renekton',      cost:4, traits:['Shurima'] },
+  Singed:     { img:'Singed',       id:'tft16_singed',        cost:4, traits:['Zaun','Juggernaut'] },
+  Veigar:     { img:'Veigar',       id:'tft16_veigar',        cost:4, traits:['Yordle','Arcanist'] },
+  Yunara:     { img:'Yunara',       id:'tft16_yunara',        cost:4, traits:['Ionia','Quickstriker'] },
+
+  // ── COSTO 5 ──
+  Annie:      { img:'Annie',        id:'tft16_annie',         cost:5, traits:['DarkChild','Arcanist'] },
+  Tibbers:    { img:'Tibbers',      id:'tft16_annietibbers',  cost:5, traits:['Arcanist'] },
+  Shyvana:    { img:'Shyvana',      id:'tft16_shyvana',       cost:5, traits:['Dragonborn','Juggernaut'] },
+  Fiddle:     { img:'Fiddlesticks', id:'tft16_fiddlesticks',  cost:5, traits:['Harvester','Vanquisher'] },
+  Mel:        { img:'Mel',          id:'tft16_mel',           cost:5, traits:['Noxus','Disruptor'] },
+  Thresh:     { img:'Thresh',       id:'tft16_thresh',        cost:5, traits:['ShadowIsles','Warden'] },
+  Ornn:       { img:'Ornn',         id:'tft16_ornn',          cost:5, traits:['Blacksmith','Warden'] },
+  Lucian:     { img:'Lucian&Senna', id:'tft16_lucian',        cost:5, traits:['Soulbound','Gunslinger'] },
+  TahmK:      { img:'TahmKench',    id:'tft16_tahmkench',     cost:5, traits:['Bilgewater','Glutton','Bruiser'] },
+  Kindred:    { img:'Kindred',      id:'tft16_kindred',       cost:5, traits:['Eternal','Quickstriker'] },
+  Aatrox:     { img:'Aatrox',       id:'tft16_aatrox',        cost:5, traits:['Darkin','WorldEnder','Slayer'] },
+  Sett:       { img:'Sett',         id:'tft16_sett',          cost:5, traits:['Ionia','TheBoss'] },
+  Zilean:     { img:'Zilean',       id:'tft16_zilean',        cost:5, traits:['Invoker','Chronokeeper'] },
+  Volibear:   { img:'Volibear',     id:'tft16_volibear',      cost:5, traits:['Freljord','Bruiser'] },
+  AurelionSol:{ img:'AurelionSol',  id:'tft16_aurelionsol',   cost:5, traits:['StarForger','Targon'] },
+  Azir:       { img:'Azir',         id:'tft16_azir',          cost:5, traits:['Shurima','Emperor','Disruptor'] },
+  Brock:      { img:'Brock',        id:'tft16_brock',         cost:5, traits:['Ixtal'] },
+  Galio:      { img:'Galio',        id:'tft16_galio',         cost:5, traits:['Demacia','Heroic'] },
+  THex:       { img:'T-Hex',        id:'tft16_thex',          cost:5, traits:['Piltover','HexMech','Gunslinger'] },
+  Xerath:     { img:'Xerath',       id:'tft16_xerath',        cost:5, traits:['Shurima','Ascendant'] },
+
+  // ── PRISMATIC (especial) ──
+  Sylas:      { img:'Sylas',        id:'tft16_sylas',         cost:7, traits:['Cahinbreaker','Arcanist','Defender'] },
+  Ryze:       { img:'Ryze',         id:'tft16_ryze',          cost:7, traits:['RuneMage'] },
 };
 
 function champUrl(k) {
-  
-  const id = CHAMP_ID[k];
-
-  if (id === 'Tibbers') {
-    
-    return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/characters/tft16_annietibbers/hud/tft16_annietibbers_square.tft_set16.png`;
-  }
-
-  // --- Lógica Estándar para los demás (CDragon) ---
-  
-  if (id) {
-    return `${BASE}assets/characters/${id}/hud/${id}_square.tft_set16.jpg`;
-  }
-
-
-  const defaultId = `tft16_${k.toLowerCase()}`;
-  return `${BASE}assets/characters/${defaultId}/hud/${defaultId}_square.tft_set16.jpg`;
+  const ch = CHAMP_ID[k];
+  if (!ch) return '';
+  return `${BASE}${encodeURIComponent(ch.img)}.png`;
 }
+
+// ── RASGOS ─────────────────────────────────────────────────────
+// th: umbrales de activación [2,4,6] etc.
+const TRAITS = {
+  // Orígenes
+  Bilgewater:  { icon:'bilgewater',  th:[2,4,6] },
+  DarkChild:   { icon:'darkchild',   th:[2] },
+  Darkin:      { icon:'darkin',      th:[1] },
+  Demacia:     { icon:'demacia',     th:[2,4,6] },
+  Dragonborn:  { icon:'dragonborn',  th:[1,2,3] },
+  Eternal:     { icon:'eternal',     th:[2] },
+  Freljord:    { icon:'freljord',    th:[2,4,6] },
+  Ionia:       { icon:'ionia',       th:[2,4,6,8] },
+  Ixtal:       { icon:'ixtal',       th:[2,4] },
+  Noxus:       { icon:'noxus',       th:[2,4,6] },
+  Piltover:    { icon:'piltover',    th:[2,4] },
+  RuneMage:    { icon:'runemage',    th:[1] },
+  ShadowIsles: { icon:'shadowisles', th:[2,4,6] },
+  Shurima:     { icon:'shurima',     th:[2,4,6] },
+  Targon:      { icon:'targon',      th:[2,4,6] },
+  Void:        { icon:'void',        th:[2,4,6] },
+  WorldEnder:  { icon:'worldender',  th:[1] },
+  Yordle:      { icon:'yordle',      th:[3,6,9] },
+  Zaun:        { icon:'zaun',        th:[2,4,6] },
+  // Clases
+  Arcanist:    { icon:'arcanist',    th:[2,4,6,8] },
+  Bruiser:     { icon:'bruiser',     th:[2,4,6] },
+  Defender:    { icon:'defender',    th:[2,4,6] },
+  Disruptor:   { icon:'disruptor',   th:[2,4] },
+  Emperor:     { icon:'emperor',     th:[1] },
+  Glutton:     { icon:'glutton',     th:[1] },
+  Gunslinger:  { icon:'gunslinger',  th:[2,4,6] },
+  HexMech:     { icon:'hexmech',     th:[1,2] },
+  Huntress:    { icon:'huntress',    th:[2,4] },
+  Invoker:     { icon:'invoker',     th:[2,4,6] },
+  Juggernaut:  { icon:'juggernaut',  th:[2,4,6] },
+  Longshot:    { icon:'longshot',    th:[2,4] },
+  Quickstriker:{ icon:'quickstriker',th:[2,4,6] },
+  Slayer:      { icon:'slayer',      th:[2,4,6] },
+  Soulbound:   { icon:'soulbound',   th:[2] },
+  TheBoss:     { icon:'theboss',     th:[1] },
+  Vanquisher:  { icon:'vanquisher',  th:[2,4,6] },
+  Warden:      { icon:'warden',      th:[2,4,6] },
+  Chronokeeper:{ icon:'chronokeeper',th:[1] },
+};
+
+
+// ================================================================
+//  PANEL DE RASGOS EN TIEMPO REAL
+//  Calcula los rasgos activos a partir del tablero y los muestra
+//  ordenados por count (más activo primero).
+// ================================================================
 
 const SA = 'https://sunderarmor.com/items/';
 
@@ -546,6 +676,64 @@ function hexBoard(board) {
   return h + `</div>`;
 }
 
+
+// ── TRAITS BLOCK ─────────────────────────────────────────────────
+
+function traitsBlock(board) {
+  const SA_ICONS = 'https://sunderarmor.com/icons/';
+
+  // 1. Contar cuántos campeones de cada rasgo hay en el tablero
+  const counts = {};
+  board.flat().filter(Boolean).forEach(cell => {
+    const chData = CHAMP_ID[cell.k];
+    if (!chData || !chData.traits) return;
+    chData.traits.forEach(t => {
+      counts[t] = (counts[t] || 0) + 1;
+    });
+  });
+
+  if (!Object.keys(counts).length) return '';
+
+  // 2. Construir array de rasgos con su estado (activo/inactivo)
+  const traitList = Object.entries(counts).map(([name, count]) => {
+    const td = TRAITS[name];
+    if (!td) return null;
+
+    
+    // Umbral alcanzado más alto
+    let reached = 0;
+    td.th.forEach(t => { if (count >= t) reached = t; });
+    // Siguiente umbral
+    const next = td.th.find(t => t > count) || null;
+    return { name, count, reached, next, icon: td.icon, maxTh: td.th[td.th.length - 1] };
+  }).filter(Boolean);
+
+  // 3. Ordenar: primero los activos (por reached desc), luego los inactivos (por count desc)
+  traitList.sort((a, b) => {
+    if (b.reached !== a.reached) return b.reached - a.reached;
+    return b.count - a.count;
+  });
+
+  // 4. Renderizar — solo mostramos los que tienen al menos 1 campeón
+  const badges = traitList.map(tr => {
+    const isActive = tr.reached > 0;
+    const isGold   = isActive && tr.reached >= tr.maxTh;
+    const cls = isGold ? 'tr-badge gold' : isActive ? 'tr-badge active' : 'tr-badge dim';
+    const countStr = tr.next ? `${tr.count}/${tr.next}` : `${tr.count}`;
+    return `<div class="${cls}" title="${tr.name}: ${tr.count} campeones">
+      <img src="${SA_ICONS}${tr.icon}.png" alt="${tr.name}"
+        crossorigin="anonymous" onerror="this.style.display='none'">
+      <span class="tr-name">${tr.name}</span>
+      <span class="tr-count">${countStr}</span>
+    </div>`;
+  }).join('');
+
+  return `<div class="traits-block">
+    <div class="traits-block-title">⬡ Rasgos Activos</div>
+    <div class="traits-grid">${badges}</div>
+  </div>`;
+}
+
 function itemsBlock(board) {
   const all = board.flat().filter(Boolean).filter(c => c.items && c.items.length);
   if (!all.length) return '';
@@ -660,7 +848,10 @@ function card(c, i, tier) {
     </div>
     <div class="cdet" onclick="event.stopPropagation()">
       <div class="dl">
-        <div class="hbo">${hexBoard(c.board)}</div>
+        <div class="hbo-col">
+          ${hexBoard(c.board)}
+          ${traitsBlock(c.board)}
+        </div>
         <div class="rp">
           <div class="sg3">
             <div class="sp"><div class="spl">Avg Place</div><div class="spv vg">${c.avgPlace}</div></div>

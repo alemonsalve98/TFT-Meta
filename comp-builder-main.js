@@ -328,8 +328,6 @@ function renderBoard() {
 
 // ================================================================
 //  PANEL DE RASGOS EN TIEMPO REAL
-//  Calcula los rasgos activos a partir del tablero y los muestra
-//  ordenados por count (más activo primero).
 // ================================================================
 function renderTraits() {
   const panel = document.getElementById('traitsList');
@@ -466,13 +464,8 @@ function updatePoolPlaced() {
 
 // ================================================================
 //  PANEL DE OBJETOS
-//  INTERACCIÓN CLICK-CLICK:
-//  1. Usuario hace clic en un ítem del panel → STATE.selectedItem = key
-//  2. El ítem muestra borde dorado (clase .item-selected)
-//  3. El cursor "chip" aparece indicando el ítem activo
-//  4. Usuario hace clic en un campeón del tablero → se asigna
-//  5. Escape cancela la selección
 // ================================================================
+
 function renderItemsPanel() {
   const el = document.getElementById('itemsPanel');
   if (!el) return;
@@ -498,9 +491,10 @@ function renderItemsPanel() {
   el.innerHTML = html;
 }
 
-// Actualiza solo el estado visual del item seleccionado (más rápido que re-render completo)
+// Item Seleccionado
 function updateItemHighlight() {
   document.querySelectorAll('.item-row').forEach(row => {
+
     // Extraemos la key del onclick attribute
     const m = row.getAttribute('onclick')?.match(/selectItem\('([^']+)'\)/);
     if (m) row.classList.toggle('item-selected', m[1] === STATE.selectedItem);
