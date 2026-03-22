@@ -254,49 +254,50 @@ const DATA = [
 
   {
     tier: 'S',
-    name: 'Arcanistas',
-    style: 'Fast 9',
+    name: 'Yordle Rumble',
+    style: 'Slow Roll',
     tags: [],
-    avgPlace: '2.1',
-    top2: '54%',
-    top4: '78%',
-    tips: 'Prioriza 4 Arcanistas en nivel 6. Annie 2★ es tu wincon. Tibbers necesita objetos defensivos.',
-    when: 'Cuando encuentres Annie temprano o tengas augment Arcanista.',
-    augments: [{n: 'Arcanist Crown', t: 'prismatic'}, {n: 'Jeweled Lotus', t: 'gold'}, {n: 'Witchful Thinking', t: 'silver'}],
-    carousel: [{k: 'SpearofShojin', p: 'high'}, {k: 'NashorsTooth', p: 'high'}, {k: 'VoidStaff', p: 'high'}, {k: 'BrambleVest', p: 'med'}],
+    avgPlace: '3.87',
+    top2: '18%',
+    top4: '61%',
+    tips: 'Rumble es tu prioridad absoluta; si no lo consigues al 3-Star, la composición pierde potencia en late game. Prioriza el Guinsoo para que escale su daño junto con el aumento de héroe. Mantén la racha de derrotas en fase 2 para maximizar oro, pero no bajes de 60 de vida.',
+    when: 'Solo si obtienes el aumento "Artillery Barrage" o si el juego te regala al menos 3 copias de Rumble antes de la fase 3-2. Es ideal cuando nadie más en la sala está haciendo "reroll" de coste 2.',
+    augments: [{n: 'Deadlier Caps', t: 'gold'}, {n: 'Pandoras Items', t: 'silver'}, {n: 'Pandoras Items', t: 'gold'},{n: 'Component Buffet', t:'silver'}],
+    carousel: [{k: 'NeedlesslyLargeRod', p: 'high'}, {k: 'RecurveBow', p: 'high'}, {k: 'TearoftheGoddess', p: 'high'}, {k: 'GiantsBelt', p: 'med'}],
+
     board: [
-      [{n: 'Neeko', k: 'Neeko', c: 2},{n:'Garen', k:'Garen', c:4}, {n: 'Shyvana', k: 'Shyvana', c: 5}, {n: 'Swain', k: 'Swain', c: 4}, {n: 'Sylas', k: 'Sylas', c: 7},{n:'Tibbers', k:'Tibbers', c:5, items:['BrambleVest','DragonsClaw','SpiritVisage']},{n:'Taric', k:'Taric',c:4}],
+      [null,null,{n: 'Kobuko', k: 'Kobuko',carry:true,items:['BrambleVest','DragonsClaw','SpiritVisage'], c: 3},{n:'Kennen', k:'Kennen', carry: true, items:['IonicSpark','SunfireCape','SpiritVisage'], c:3},{n:'Poppy', k:'Poppy',carry:true, c:2},{n:'Fizz', k:'Fizz',items:['JeweledGauntlet','StrikersFlail','HandofJustice'], c:4},null],
 
       [null,null, null, null, null, null, null],
 
       [null,null,null,null, null, null, null],
 
-      [{n:'Lux', k:'Lux',c:4}, null, null,null, null, null,  {n: 'Annie', k: 'Annie', c: 5, carry: true, items: ['AdaptiveHelm', 'SpearofShojin', 'VoidStaff']}]
+      [{n:'Rumble', k:'Rumble',carry: true, items:['GuinsoosRageblade','RabadonsDeathcap','VoidStaff'], c:1}, {n:'Tristana', k:'Tristana',carry:true, c:2}, {n:'Teemo', k:'Teemo',carry:true, c:2},null, {n:'Lulu', k:'Lulu',carry:true, c:2}, null,null]
     ]
   },
 
   {
     tier: 'S',
-    name: 'Noxus Disruptors',
-    style: 'Fast 9',
-    tags: [],
-    avgPlace: '2.3',
-    top2: '51%',
-    top4: '75%',
-    tips: 'Mel es la carry AP. Taric tanquea con objetos de aura. Activa Noxus 3 en nivel 6.',
-    when: 'Con Mel 2★ o augment Noxus/Disruptor.',
-    augments: [{n: 'Disruptor Crown', t: 'prismatic'}, {n: 'Noxus Crest', t: 'gold'}, {n: 'Jeweled Lotus', t: 'silver'}],
-    carousel: [{k: 'JeweledGauntlet', p: 'high'}, {k: 'NashorsTooth', p: 'high'}, {k: 'VoidStaff', p: 'high'}, {k: 'SunfireCape', p: 'med'}],
+    name: 'Demacia Vayne',
+    style: 'Slow Roll',
+    tags: ['trending'],
+    avgPlace: '3.97',
+    top2: '15.2%',
+    top4: '61.1%',
+    tips: 'Prioriza Krankens Fury y Hextech Gunblade en Vayne; su daño verdadero tritura tanques. Garen es tu CC principal, asegúrate de que tenga ítems',
+    when: 'Si consigues a Vayne 2* temprano o una Espátula Demacia. Es ideal si tienes un inicio de racha de victorias (Win Streak) y puedes rushear el nivel 7 para estabilizar.',
+    augments: [{n: 'Epoch', t: 'gold'}, {n: 'Heavy is the Crown', t: 'gold'}, {n: 'Heroic Grab Bag', t: 'gold'},{n:'Big Grab Bag', t:'gold'}],
+    carousel: [{k: 'NegatronCloak', p: 'high'}, {k: 'RecurveBow', p: 'high'}, {k: 'BFSword', p: 'high'}, {k: 'SparringGloves', p: 'med'}],
     board: [
 
-      [null,{n:'Vi', k:'Vi', c:2},{n:'Sylas', k:'Sylas', c:7},{n: 'Swain', k: 'Swain', c: 4},{n:'Ambessa', k:'Ambessa', c:4},{n: 'Taric', k: 'Taric', c: 4, items: ['BrambleVest', 'SunfireCape', 'SpiritVisage']},{n:'Shyvana', k:'Shyvana', c:5}],
+      [{n:'Taric', k:'Taric', c:4},null,{n:'Poppy', k:'Poppy', c:2},{n: 'Garen', k: 'Garen', items:['BrambleVest','DragonsClaw','SunfireCape'], c: 4},{n:'Jarvaniv', k:'Jarvaniv', c:1},null,null],
 
-      [null, null,null,null,{n:'Fiddle', k:'Fiddle', c:5}, null, null],
+      [null, null,null,{n:'Galio', k:'Galio', items:['AdaptiveHelm'], c:5},null, null, null],
 
 
       [null, null, null, null, null, null, null],
 
-      [null, null, null, null, {n:'Seraphine', k:'Seraphine', c:4}, null,  {n: 'Mel', k: 'Mel', c: 5, carry: true, items: ['JeweledGauntlet', 'NashorsTooth', 'NashorsTooth']}]
+      [{n:'Vayne', k:'Vayne', carry:true, items:['HextechGunblade','KrakensFury','KrakensFury','GuinsoosRageblade'], c:3}, null, {n:'Kogmaw', k:'Kogmaw', c:1}, null,null, null, {n:'Kaisa',  k:'KaiSa', items:['InfinityEdge','LastWhisper','SpearofShojin'], c:4}]
     ]
   },
 
@@ -478,7 +479,7 @@ const DATA = [
     board: [
       [{n: 'Sion', k: 'Sion', c: 2}, null, {n: 'Neeko', k: 'Neeko', c: 2}, null, {n: 'Swain', k: 'Swain', c: 2}, null, {n: 'Ambessa', k: 'Ambessa', c: 4}],
       [null, {n: 'Draven', k: 'Draven', c: 3}, null, null, null, {n: 'Kindred', k: 'Kindred', c: 5}, null],
-      [null, null, {n: 'Leblanc', k: 'Leblanc', c: 4, items: ['JeweledGauntlet', 'SpearofShojin', 'VoidStaff']}, null, null, null, null],
+      [null, null, {n: 'LeBlanc', k: 'LeBlanc', c: 4, items: ['JeweledGauntlet', 'SpearofShojin', 'VoidStaff']}, null, null, null, null],
       [null, null, null, {n: 'Darius', k: 'Darius', c: 3, carry: true, items: ['AdaptiveHelm', 'SteraksGage', 'TitansResolve']}, null, null, null]
     ]
   },
@@ -518,10 +519,10 @@ const DATA = [
     augments: [{n: 'Void Crest', t: 'gold'}, {n: 'Bel\'Veth\'s Void', t: 'prismatic'}, {n: 'Disruptor Soul', t: 'silver'}],
     carousel: [{k: 'GuinsoosRageblade', p: 'high'}, {k: 'KrakensFury', p: 'high'}, {k: 'Quicksilver', p: 'med'}, {k: 'VoidStaff', p: 'med'}],
     board: [
-      [{n: 'Chogath', k: 'Chogath', c: 2, items: ['BrambleVest', 'SunfireCape', 'Evenshroud']}, null, {n: 'RekSai', k: 'RekSai', c: 2}, null, {n: 'Malzahar', k: 'Malzahar', c: 3}, null, {n: 'Skarner', k: 'Skarner', c: 4}],
+      [{n: 'ChoGath', k: 'ChoGath', c: 2, items: ['BrambleVest', 'SunfireCape', 'Evenshroud']}, null, {n: 'RekSai', k: 'RekSai', c: 2}, null, {n: 'Malzahar', k: 'Malzahar', c: 3}, null, {n: 'Skarner', k: 'Skarner', c: 4}],
       [null, {n: 'Neeko', k: 'Neeko', c: 2}, null, null, null, {n: 'Fiddle', k: 'Fiddle', c: 5}, null],
-      [null, null, {n: 'Belveth', k: 'Belveth', c: 4, items: ['TitansResolve', 'Quicksilver']}, null, {n: 'Shyvana', k: 'Shyvana', c: 5}, null, null],
-      [null, null, null, {n: 'Kaisa', k: 'Kaisa', c: 4, carry: true, items: ['GuinsoosRageblade', 'KrakensFury', 'LastWhisper']}, null, null, null]
+      [null, null, {n: 'BelVeth', k: 'BelVeth', c: 4, items: ['TitansResolve', 'Quicksilver']}, null, {n: 'Shyvana', k: 'Shyvana', c: 5}, null, null],
+      [null, null, null, {n: 'KaiSa', k: 'KaiSa', c: 4, carry: true, items: ['GuinsoosRageblade', 'KrakensFury', 'LastWhisper']}, null, null, null]
     ]
   },
 
@@ -622,7 +623,7 @@ const DATA = [
     augments: [{n: 'Artillery Barrage', t: 'prismatic'}, {n: 'Zaun Crest', t: 'gold'}, {n: 'Scrap I', t: 'silver'}],
     carousel: [{k: 'GargoyleStoneplate', p: 'high'}, {k: 'SunfireCape', p: 'high'}, {k: 'GuinsoosRageblade', p: 'high'}, {k: 'KrakensFury', p: 'med'}],
     board: [
-      [{n: 'Chogath', k: 'Chogath', c: 2, items: ['BrambleVest', 'Evenshroud']}, null, {n: 'Vi', k: 'Vi', c: 2}, null, {n: 'Warwick', k: 'Warwick', c: 3, items: ['TitansResolve', 'SteraksGage']}, null, {n: 'Singed', k: 'Singed', c: 3}],
+      [{n: 'ChoGath', k: 'ChoGath', c: 2, items: ['BrambleVest', 'Evenshroud']}, null, {n: 'Vi', k: 'Vi', c: 2}, null, {n: 'Warwick', k: 'Warwick', c: 3, items: ['TitansResolve', 'SteraksGage']}, null, {n: 'Singed', k: 'Singed', c: 3}],
       [null, {n: 'DrMundo', k: 'DrMundo', c: 3}, null, null, null, {n: 'Ekko', k: 'Ekko', c: 3}, null],
       [null, null, {n: 'Jinx', k: 'Jinx', c: 3, items: ['GuinsoosRageblade', 'KrakensFury', 'LastWhisper']}, null, null, null, null],
       [null, null, null, {n: 'Rumble', k: 'Rumble', c: 1, carry: true, items: ['GargoyleStoneplate', 'SunfireCape', 'IonicSpark']}, null, null, null]
@@ -827,7 +828,7 @@ function card(c, i, tier) {
   const id = `${tier}-${i}`;
   const slug = c.name.toLowerCase().replace(/\s+/g,'-');
   const exp = EXP.has(id);
-  const tags = (c.tags||[]).map(t => `<span class="ctag tag-${t}">${t==='augment'?'⬡ Augment':'◈ Emblem'}</span>`).join('');
+  const tags = (c.tags||[]).map(t => `<span class="ctag tag-${t}">${t==='trending'?'⬡ Trending':'◈ Emblem'}</span>`).join('');
   const champs = c.board.flat().filter(Boolean).map(avHtml).join('');
 
   return `<div class="cc ${tier}${exp?' exp':''}" id="comp-${slug}" style="animation-delay:${i*.05}s" onclick="tog('${id}',this)">
