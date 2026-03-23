@@ -303,42 +303,51 @@ const DATA = [
 
   {
     tier: 'S',
-    name: 'WARDEN KALISTA',
+    name: 'Defender Aphelios',
     style: 'Fast 8',
     tags: [],
     avgPlace: '3.9',
     top2: '13.8%',
     top4: '60.5%',
-    tips: 'Kalista lleva todos los items AD. Thresh amplifica el daño en late. Shadow Isle 4 es core.',
-    when: 'Con economía sólida para nivel 8. Muy fuerte con Kalista + Thresh.',
+    tips: 'La clave es la adaptabilidad del arma. Selecciona la Onda de Choque (Morada) para aturdir a enemigos explosivos o la Ráfaga Solar (Azul) para maximizar el daño en área si tu línea frontal es sólida. Posiciona a tus tanques en "U" para centralizar el foco y proteger a Aphelios en la esquina.',
+    when: 'Es ideal en salas dominadas por daño físico (AD), donde la armadura masiva de los Defensores anula al rival. Prioriza esta ruta si obtienes componentes de Arco Curvo o Espada del Espadón temprano y cuentas con una línea frontal de dos estrellas antes de llegar al nivel 8',
     augments: [{n: 'Warden Crown', t: 'prismatic'}, {n: 'Shadow Isles Crest', t: 'gold'}, {n: 'Last Stand', t: 'silver'}],
-    carousel: [{k: 'LastWhisper', p: 'high'}, {k: 'SpearofShojin', p: 'high'}, {k: 'StrikersFlail', p: 'high'}, {k: 'EdgeofNight', p: 'med'}],
+    carousel: [{k: 'RecurveBow', p: 'high'}, {k: 'NeedlesslyLargeRod', p: 'high'}, {k: 'SparringGloves', p: 'high'}, {k: 'TearoftheGodess', p: 'med'}],
+
     board: [
-      [null, {n: 'Ornn', k: 'Ornn', c: 5, items: ['BrambleVest', 'DragonsClaw', 'SpiritVisage']}, {n: 'Yorick', k: 'Yorick', c: 2}, {n: 'Thresh', k: 'Thresh', c: 5, items: ['EdgeofNight', 'Morellonomicon', 'IonicSpark']}, {n: 'Braum', k: 'Braum', c: 4, items: ['BrambleVest', 'DragonsClaw', 'SpiritVisage']}, {n: 'Loris', k: 'Loris', c: 3}, null],
-      [null, null, {n: 'Gwen', k: 'Gwen', c: 3}, {n: 'Fiddle', k: 'Fiddle', c: 5}, null, null, null],
+      [null, {n: 'Vi', k: 'Vi', c: 2}, {n: 'Loris', k: 'Loris', carry:true ,c: 3}, {n: 'Neeko', k: 'Neeko', carry:true, c: 2, items: ['BrambleVest', 'SunfireCape', 'SpiritVisage']}, {n: 'Swain', k: 'Swain', c: 4}, {n: 'Taric', k: 'Taric', c: 4}, {n:'Nidalee', k:'Nidalee', c:4, items:['JeweledGauntlet','StrikersFlail','HandofJustice']}],
+
+      [null, null, null,null, null, null, null],
+
       [null, null, null, null, null, null, null],
-      [{n: 'Kalista', k: 'Kalista', c: 4, carry: true, items: ['LastWhisper', 'SpearofShojin', 'StrikersFlail']}, null, null, null, null, null, {n: 'Seraphine', k: 'Seraphine', c: 4}]
+
+      [{n: 'Aphelios', k: 'Aphelios', c: 2, carry: true, items: ['GuinsioosRageblade', 'InfinityEdge', 'KrakensFury']}, {n:'Bardo', k:'Bardo', carry:true, c:2, items:['ArchangelsStaff','SpearofShojin','VoidStaff']}, null, null, null, null, null]
     ]
   },
 
   {
     tier: 'S',
-    name: 'Bilgewater Gunslingers',
-    style: 'Fast 9',
+    name: 'Targon Malzahar',
+    style: 'Slow Roll',
     tags: [],
-    avgPlace: '2.5',
-    top2: '47%',
-    top4: '72%',
-    tips: 'Miss Fortune necesita protección total en fila trasera. Bilgewater 4 da burst masivo.',
-    when: 'Con economía alta o augments de Bilgewater.',
-    augments: [{n: 'Gunslinger Crown', t: 'prismatic'}, {n: 'Bilgewater Crest', t: 'gold'}, {n: 'Tons of Stats', t: 'silver'}],
-    carousel: [{k: 'HandofJustice', p: 'high'}, {k: 'SpearofShojin', p: 'high'}, {k: 'GuinsoosRageblade', p: 'high'}, {k: 'BrambleVest', p: 'med'}],
-    board: [
-      [null, {n: 'Nautilus', k: 'Nautilus', c: 3}, {n: 'Wukong', k: 'Wukong', c: 4}, {n:'Taric', k:'Taric', c:4}, {n:'Ornn', k:'Ornn', c:5}, {n: 'TahmK', k: 'TahmK', c: 5, items: ['PileOCitrus', 'Barknuckles','ProtectorsVow']}, {n: 'Shyvana', k: 'Shyvana', c: 5}],
+    avgPlace: '4.02',
+    top2: '14.9%',
+    top4: '59%',
+    tips: 'La clave es el Diente de Nashor doble. Esta combinación permite que Malzahar aproveche el enorme escudo de Targon para ganar tiempo y activar ráfagas constantes de velocidad de ataque, transformándolo en un ametralladora de hechizos que aplica el quemado del Morellonomicon a toda la mesa en segundos.',
 
-      [null, null, null, null,  {n: 'Fiddle', k: 'Fiddle', c: 5}, null, null],
+    when: 'Elígelo si inicias con varios componentes de Arco Curvo y Cinturón de Gigante. Es una ruta excelente cuando tienes a Taric al nivel 2 temprano, ya que su protección garantiza que Malzahar active la pasiva de ambos Dientes de Nashor repetidamente sin morir.',
+
+    augments: [{n: 'Two Much Value', t: 'gold'}, {n: 'Calculated Loss', t: 'gold'}, {n: 'Trade Sector', t: 'gold'}],
+    carousel: [{k: 'GiantsBelt', p: 'high'}, {k: 'NeedlesslyLargeRod', p: 'high'}, {k: 'TearoftheGoddess', p: 'high'}, {k: 'ChainVest', p: 'med'}],
+
+    board: [
+      [null, {n: 'Taric', k: 'Taric', c: 4}, {n: 'Neeko', k: 'Neeko', c: 2}, {n:'Leona', k:'Leona', carry:true,  c:2, items:['BrambleVest','DragonsClaw','GargoyleStoneplate']}, null, null, null],
+
+      [null, null, null, {n:'Vi', k:'Vi', c:2}, null, null, null],
+
       [null, null, null, null, null, null, null],
-      [null, null, null, null, {n: 'Lucian', k: 'Lucian', c: 5}, null, {n: 'MF', k: 'MF', c: 4, carry: true, items: ['HandofJustice', 'SpearofShojin', 'GuinsoosRageblade']}]
+
+      [{n:'Malzahar', k:'Malzahar', carry: true,c:3, items:['JeweledGauntlet','NashorsTooth','GuinsoosRageblade']}, null, null, {n:'Seraphine', k:'Seraphine', c:4, items:['Morellonomicon','SpearofShojin','VoidStaff']}, {n: 'Kogmaw', k: 'Kogmaw', c: 1}, null, {n: 'Zoe', k: 'Zoe', c: 3, items: ['HextechGunblade', 'SpearofShojin', 'JeweledGauntlet']}]
     ]
   },
 
