@@ -321,7 +321,7 @@ const DATA = [
 
       [null, null, null, null, null, null, null],
 
-      [{n: 'Aphelios', k: 'Aphelios', c: 2, carry: true, items: ['GuinsioosRageblade', 'InfinityEdge', 'KrakensFury']}, {n:'Bardo', k:'Bardo', carry:true, c:2, items:['ArchangelsStaff','SpearofShojin','VoidStaff']}, null, null, null, null, null]
+      [{n: 'Aphelios', k: 'Aphelios', c: 2, carry: true, items: ['GuinsoosRageblade', 'InfinityEdge', 'KrakensFury']}, {n:'Bardo', k:'Bardo', carry:true, c:2, items:['ArchangelsStaff','SpearofShojin','VoidStaff']}, null, null, null, null, null]
     ]
   },
 
