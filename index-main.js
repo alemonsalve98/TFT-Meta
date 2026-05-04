@@ -312,7 +312,7 @@ const DATA = [
     tips: 'La clave es la adaptabilidad del arma. Selecciona la Onda de Choque (Morada) para aturdir a enemigos explosivos o la Ráfaga Solar (Azul) para maximizar el daño en área si tu línea frontal es sólida. Posiciona a tus tanques en "U" para centralizar el foco y proteger a Aphelios en la esquina.',
     when: 'Es ideal en salas dominadas por daño físico (AD), donde la armadura masiva de los Defensores anula al rival. Prioriza esta ruta si obtienes componentes de Arco Curvo o Espada del Espadón temprano y cuentas con una línea frontal de dos estrellas antes de llegar al nivel 8',
     augments: [{n: 'Warden Crown', t: 'prismatic'}, {n: 'Shadow Isles Crest', t: 'gold'}, {n: 'Last Stand', t: 'silver'}],
-    carousel: [{k: 'RecurveBow', p: 'high'}, {k: 'NeedlesslyLargeRod', p: 'high'}, {k: 'SparringGloves', p: 'high'}, {k: 'TearoftheGodess', p: 'med'}],
+    carousel: [{k: 'RecurveBow', p: 'high'}, {k: 'NeedlesslyLargeRod', p: 'high'}, {k: 'SparringGloves', p: 'high'}, {k: 'TearoftheGoddess', p: 'med'}],
 
     board: [
       [null, {n: 'Vi', k: 'Vi', c: 2}, {n: 'Loris', k: 'Loris', carry:true ,c: 3}, {n: 'Neeko', k: 'Neeko', carry:true, c: 2, items: ['BrambleVest', 'SunfireCape', 'SpiritVisage']}, {n: 'Swain', k: 'Swain', c: 4}, {n: 'Taric', k: 'Taric', c: 4}, {n:'Nidalee', k:'Nidalee', c:4, items:['JeweledGauntlet','StrikersFlail','HandofJustice']}],
